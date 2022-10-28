@@ -31,6 +31,4 @@ Oliver Souter 2004076
 # WireFrames
 Below are the first prototype wireframes of the app and its 3 pages to the description above
 
-![image](https://user-images.githubusercontent.com/73543366/198704514-e2317932-60f5-4cf2-99ea-4308313251ac.png)
-
-
+![image](https://user-images.githubusercontent.com/73543366/198712846-4a850b3e-3573-4e87-b42a-fa2564df473a.png)
