@@ -5,10 +5,12 @@ cm3110-coursework-o-souter created by GitHub Classroom
 
 Oliver Souter 2004076
 
-**Where ISS it? - The app to track the ISS**
+**Where ISS it? - The app to track the ISS and find asteroids**
 
 # Functionality
 
 ## Opening Page
-* Two Buttons: 1 to locate the ISS, the other - function tbd
+* The App logo
+* A Button which will take the user to a page to locate the ISS, 
+* Another button which will take the user to another page to find the most recent asteroid that has fallen
 
