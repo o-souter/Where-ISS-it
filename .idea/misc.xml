@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/cm3110-coursework-o-souter/app/src/main/res/layout/activity_main.xml" value="0.25729166666666664" />
+        <entry key="..\:/cm3110-coursework-o-souter/app/src/main/res/layout/fragment_mainpage_frag.xml" value="0.25729166666666664" />
+        <entry key="..\:/cm3110-coursework-o-souter/app/src/main/res/layout/iss_locator_frag.xml" value="0.25729166666666664" />
+        <entry key="..\:/cm3110-coursework-o-souter/app/src/main/res/layout/main_page_frag.xml" value="0.25729166666666664" />
+      </map>
+    </option>
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
