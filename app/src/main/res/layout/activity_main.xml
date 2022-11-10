@@ -6,50 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="255dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="164dp"
-        android:layout_marginEnd="165dp"
-        android:layout_marginBottom="299dp"
-        android:text="Where ISS it?"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="664dp" />
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="310dp"
-        android:layout_height="317dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/frag_container"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="409dp"
+        android:layout_height="662dp"
+        android:layout_marginStart="207dp"
+        android:layout_marginTop="353dp"
+        android:layout_marginEnd="196dp"
+        android:layout_marginBottom="303dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@+id/backButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.759"
-        app:srcCompat="@android:drawable/ic_menu_gallery" />
-
-    <Button
-        android:id="@+id/ISSButton"
-        android:layout_width="211dp"
-        android:layout_height="61dp"
-        android:layout_marginBottom="36dp"
-        android:text="Where is the ISS?"
-        app:layout_constraintBottom_toTopOf="@+id/asteroidButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/asteroidButton"
-        android:layout_width="211dp"
-        android:layout_height="61dp"
-        android:text="Asteroids?"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.849" />
-
+        app:navGraph="@navigation/navigation" />
 </androidx.constraintlayout.widget.ConstraintLayout>

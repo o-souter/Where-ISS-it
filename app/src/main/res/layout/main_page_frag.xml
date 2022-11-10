@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="255dp"
+        android:layout_width="wrap_content"
         android:layout_height="37dp"
-        android:layout_marginStart="164dp"
-        android:layout_marginEnd="165dp"
-        android:layout_marginBottom="299dp"
+        android:layout_marginBottom="388dp"
         android:text="Where ISS it?"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.402"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="310dp"
-        android:layout_height="317dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+        android:layout_width="77dp"
+        android:layout_height="137dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.759"
+        app:layout_constraintVertical_bias="0.57"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     <Button
         android:id="@+id/ISSButton"
-        android:layout_width="211dp"
+        android:layout_width="wrap_content"
         android:layout_height="61dp"
-        android:layout_marginBottom="36dp"
         android:text="Where is the ISS?"
         app:layout_constraintBottom_toTopOf="@+id/asteroidButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,12 +43,32 @@
 
     <Button
         android:id="@+id/asteroidButton"
-        android:layout_width="211dp"
-        android:layout_height="61dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Asteroids?"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.849" />
-</FrameLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        app:defaultNavHost="true"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:navGraph="@navigation/navigation" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView2"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        app:defaultNavHost="true"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:navGraph="@navigation/navigation" />
+</androidx.constraintlayout.widget.ConstraintLayout>
