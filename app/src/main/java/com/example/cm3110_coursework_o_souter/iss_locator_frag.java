@@ -10,6 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,9 +74,30 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.iss_locator_frag, container, false);
-        v.setBackgroundColor(Color.BLUE); //Setting the background colour
+        v.setBackgroundColor(Color.CYAN); //Setting the background colour
         Button btnBackISS = v.findViewById(R.id.btnBackISS); //Making a variable to find the button
+        TextView testText = v.findViewById(R.id.testTextViewISS);
         btnBackISS.setOnClickListener(this); //Adding a listener
+        //Getting API data
+        String url = "https://api.wheretheiss.at/v1/satellites/25544"; //URL where the ISS data is stored
+        RequestQueue queue = Volley.newRequestQueue(this.getContext());
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //Add text
+                        testText.setText("Response is: " + response.substring(0, 300));
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //Error handling
+                        testText.setText("An error occurred.");
+                    }
+                });
+        queue.add(stringRequest);
+
         return v;
     }
 
@@ -75,7 +107,10 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
             Navigation.findNavController(v).navigate(R.id.homepage_frag);
         }
         else {
+
             //Do nothing
         }
     }
+    String testResponse;
+
 }
