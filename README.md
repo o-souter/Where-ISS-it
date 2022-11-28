@@ -32,3 +32,10 @@ Oliver Souter 2004076
 Below are the first prototype wireframes of the app and its 3 pages to the description above
 
 ![image](https://user-images.githubusercontent.com/73543366/198712846-4a850b3e-3573-4e87-b42a-fa2564df473a.png)
+
+# API Use
+* The App will use *Where The ISS At?*'s public api to gather the coordinates of the ISS when needed 
+* The app will also use NASA's public NeoWs (Near Earth Object Web Service) API to gather information about meteors
+* It will also use Google's Geocoding API to process coordinates to get a location.
+
+
