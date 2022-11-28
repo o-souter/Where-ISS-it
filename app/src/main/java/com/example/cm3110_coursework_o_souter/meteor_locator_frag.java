@@ -1,5 +1,6 @@
 package com.example.cm3110_coursework_o_souter;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -60,8 +61,12 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.meteor_locator_frag, container, false);
+        v.setBackgroundColor(Color.GRAY); //Setting the background colour
+
+
         Button btnBackMeteor = v.findViewById(R.id.btnBackMeteor); //Making a variable to find the button
         btnBackMeteor.setOnClickListener(this); //Adding a listener
         return v;

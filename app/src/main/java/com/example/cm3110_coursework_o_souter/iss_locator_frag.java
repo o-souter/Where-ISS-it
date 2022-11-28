@@ -1,5 +1,6 @@
 package com.example.cm3110_coursework_o_souter;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -62,6 +63,7 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.iss_locator_frag, container, false);
+        v.setBackgroundColor(Color.BLUE); //Setting the background colour
         Button btnBackISS = v.findViewById(R.id.btnBackISS); //Making a variable to find the button
         btnBackISS.setOnClickListener(this); //Adding a listener
         return v;
