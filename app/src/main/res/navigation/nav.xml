@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav"
+    app:startDestination="@id/homepage_frag">
+    <fragment
+        android:id="@+id/homepage_frag"
+        android:name="com.example.cm3110_coursework_o_souter.homepage_frag"
+        android:label="homepage_frag"
+        tools:layout="@layout/homepage_frag" >
+        <action
+            android:id="@+id/action_homepage_frag_to_iss_locator_frag"
+            app:destination="@id/iss_locator_frag" />
+        <action
+            android:id="@+id/action_homepage_frag_to_meteor_locator_frag"
+            app:destination="@id/meteor_locator_frag" />
+    </fragment>
+    <fragment
+        android:id="@+id/iss_locator_frag"
+        android:name="com.example.cm3110_coursework_o_souter.iss_locator_frag"
+        android:label="iss_locator_frag"
+        tools:layout="@layout/iss_locator_frag" >
+        <action
+            android:id="@+id/action_iss_locator_frag_to_homepage_frag"
+            app:destination="@id/homepage_frag" />
+    </fragment>
+    <fragment
+        android:id="@+id/meteor_locator_frag"
+        android:name="com.example.cm3110_coursework_o_souter.meteor_locator_frag"
+        android:label="meteor_locator_frag"
+        tools:layout="@layout/meteor_locator_frag" >
+        <action
+            android:id="@+id/action_meteor_locator_frag_to_homepage_frag"
+            app:destination="@id/homepage_frag" />
+    </fragment>
+</navigation>

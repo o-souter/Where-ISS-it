@@ -12,22 +12,18 @@
         android:layout_height="wrap_content"
         android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="664dp" />
+        tools:layout_editor_absoluteY="667dp" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/frag_container"
+        android:id="@+id/fragmentContainerView"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="409dp"
-        android:layout_height="662dp"
-        android:layout_marginStart="207dp"
-        android:layout_marginTop="353dp"
-        android:layout_marginEnd="196dp"
-        android:layout_marginBottom="303dp"
+        android:layout_width="411dp"
+        android:layout_height="632dp"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@+id/backButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/navigation" />
+        app:navGraph="@navigation/nav"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
