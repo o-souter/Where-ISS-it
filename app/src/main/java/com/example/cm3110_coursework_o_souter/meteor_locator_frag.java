@@ -3,17 +3,19 @@ package com.example.cm3110_coursework_o_souter;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link meteor_locator_frag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class meteor_locator_frag extends Fragment {
+public class meteor_locator_frag extends Fragment implements View.OnClickListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +61,19 @@ public class meteor_locator_frag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.meteor_locator_frag, container, false);
+        View v = inflater.inflate(R.layout.meteor_locator_frag, container, false);
+        Button btnBackMeteor = v.findViewById(R.id.btnBackMeteor); //Making a variable to find the button
+        btnBackMeteor.setOnClickListener(this); //Adding a listener
+        return v;
+    }
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btnBackMeteor) {
+            Navigation.findNavController(v).navigate(R.id.homepage_frag);
+        }
+        else {
+            //Do nothing
+        }
+
     }
 }

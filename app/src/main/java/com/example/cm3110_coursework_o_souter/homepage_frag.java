@@ -3,17 +3,19 @@ package com.example.cm3110_coursework_o_souter;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link homepage_frag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class homepage_frag extends Fragment {
+public class homepage_frag extends Fragment implements View.OnClickListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +61,25 @@ public class homepage_frag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.homepage_frag, container, false);
+        View v = inflater.inflate(R.layout.homepage_frag, container, false); //Setting the view to a variable
+        Button btnISSPage = v.findViewById(R.id.btn_iss_page); //Making a variable to find the button
+        btnISSPage.setOnClickListener(this); //Adding a listener
+
+        Button btnMeteorPage = v.findViewById(R.id.btn_meteor_page); //Making a variable to find the button
+        btnMeteorPage.setOnClickListener(this); //Adding a listener
+        return v;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btn_iss_page) {
+            Navigation.findNavController(v).navigate(R.id.iss_locator_frag);
+        }
+        else if (v.getId() == R.id.btn_meteor_page) {
+            Navigation.findNavController(v).navigate(R.id.meteor_locator_frag);
+        }
+        else {
+            //Do nothing
+        }
     }
 }
