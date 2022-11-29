@@ -1,6 +1,5 @@
 package com.example.cm3110_coursework_o_souter;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -13,19 +12,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.android.volley.Cache;
 import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -118,28 +115,45 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         View v =  inflater.inflate(R.layout.iss_locator_frag, container, false);
         v.setBackgroundColor(Color.CYAN); //Setting the background colour
         Button btnBackISS = v.findViewById(R.id.btnBackISS); //Making a variable to find the button
-        TextView testText = v.findViewById(R.id.testTextViewISS);
+        TextView coordinateTextView = v.findViewById(R.id.coordinateTextView);
         btnBackISS.setOnClickListener(this); //Adding a listener
         //Getting API data
-        //String url = "https://api.wheretheiss.at/v1/satellites/25544"; //URL where the ISS data is stored
-        /*RequestQueue queue = Volley.newRequestQueue(this.getContext());
+        String url = "https://api.wheretheiss.at/v1/satellites/25544"; //URL where the ISS data is stored
+        RequestQueue queue = Volley.newRequestQueue(this.getContext());
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        //Creating a JSONObject from the string request
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            //System.out.println(jsonObject.getString("name"));
+                            String latitudeObject = jsonObject.getString("latitude");
+                            String longitudeObject = jsonObject.getString("longitude");
+                            //Add text
+                            coordinateTextView.setText("The ISS's coordinates are latitude: " + latitudeObject + " \nand longitude: " + longitudeObject);
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                            coordinateTextView.setText("There was an issue with the API...");
+                        }
+
+
                         //Add text
-                        testText.setText("Response is: " + response.substring(0, 300));
+                        //testText.setText("The ISS coordinates are latitude: " + latitude + " and longitude: " + longitude);
+
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //Error handling
-                        testText.setText("An error occurred.");
+                        coordinateTextView.setText("There was an issue with the API...");
                     }
+
                 });
         queue.add(stringRequest);
-        */
+
         return v;
     }
 
