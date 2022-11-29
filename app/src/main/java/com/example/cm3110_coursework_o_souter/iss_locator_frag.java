@@ -128,21 +128,15 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
                         //Creating a JSONObject from the string request
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            //System.out.println(jsonObject.getString("name"));
-                            String latitudeObject = jsonObject.getString("latitude");
-                            String longitudeObject = jsonObject.getString("longitude");
+                            String latitude = jsonObject.getString("latitude");
+                            String longitude = jsonObject.getString("longitude");
                             //Add text
-                            coordinateTextView.setText("The ISS's coordinates are latitude: " + latitudeObject + " \nand longitude: " + longitudeObject);
+                            coordinateTextView.setText("The ISS's coordinates are: \nLatitude: " + latitude + " \nLongitude: " + longitude);
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
                             coordinateTextView.setText("There was an issue with the API...");
                         }
-
-
-                        //Add text
-                        //testText.setText("The ISS coordinates are latitude: " + latitude + " and longitude: " + longitude);
-
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -150,7 +144,6 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
                         //Error handling
                         coordinateTextView.setText("There was an issue with the API...");
                     }
-
                 });
         queue.add(stringRequest);
 

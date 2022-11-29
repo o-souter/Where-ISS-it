@@ -35,11 +35,11 @@
         android:id="@+id/coordinateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="this is a test"
+        android:text="The ISS's coordinates are:\nLatitude:\nLongitude:"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.31" />
+        app:layout_constraintVertical_bias="0.78" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

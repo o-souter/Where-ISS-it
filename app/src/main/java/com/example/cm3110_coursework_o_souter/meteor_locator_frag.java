@@ -10,6 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,6 +80,37 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
 
         Button btnBackMeteor = v.findViewById(R.id.btnBackMeteor); //Making a variable to find the button
         btnBackMeteor.setOnClickListener(this); //Adding a listener
+
+        TextView txtMeteorCoords = v.findViewById(R.id.coordinateTextView); //Variable for the textview to display the coordinates
+        String url = "https://data.nasa.gov/resource/gh4g-9sfh.json";
+        RequestQueue queue = Volley.newRequestQueue(this.getContext());
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //Creating a JSONObject from the string request
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONObject geoLocation = jsonObject.getJSONObject("geolocation");
+                            String latitude = geoLocation.getString("latitude");
+                            String longitude = geoLocation.getString("longitude");
+                            System.out.println(response);
+                            txtMeteorCoords.setText("Latitude: " + latitude + "\nLongitude: " + longitude);
+
+                        }
+                        catch (JSONException e){
+                            e.printStackTrace();
+                            System.out.println("API Error!");
+                            txtMeteorCoords.setText("There was an Issue with the API...");
+                        }
+                    }
+        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //Error handling
+                    }
+        });
+        queue.add(stringRequest);
         return v;
     }
     @Override

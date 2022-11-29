@@ -27,4 +27,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.95" />
+
+    <TextView
+        android:id="@+id/meteorCoordsTxtView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="176dp"
+        android:layout_marginTop="525dp"
+        android:layout_marginEnd="177dp"
+        android:layout_marginBottom="39dp"
+        android:text="Latitude:\nLongitude:"
+        app:layout_constraintBottom_toTopOf="@+id/btnBackMeteor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMeteorLanded" />
 </androidx.constraintlayout.widget.ConstraintLayout>
