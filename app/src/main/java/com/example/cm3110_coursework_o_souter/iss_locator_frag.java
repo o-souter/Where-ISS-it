@@ -1,5 +1,6 @@
 package com.example.cm3110_coursework_o_souter;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -74,16 +75,41 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         }
     }
 
-    RequestQueue requestQueue;
+
+    /*public class singletonTest {
+        private static singletonTest instance;
+        private RequestQueue requestQueue;
+        private static Context ctx;
+
+        private singletonTest(Context context) {
+            ctx = context;
+            requestQueue = getRequestQueue();
+
+        }
+    }
+    public static synchronized singletonTest getInstance(Context context) {
+        if (singletonTest.instance == null) {
+            singletonTest.instance = new singletonTest(context);
+        }
+        return singletonTest.instance;
+    }
+    public RequestQueue getRequestQueue() {
+        if (requestQueue = null) {
+            requestQueue = Volley.newRequestQueue(ctx.getApplicationContext());
+        }
+    }
+    public <T> void addToRequestQueue(Request<T> req) {
+        getRequestQueue().add(req);
+    }*/
 
     //Cache
-    Cache cache = new DiskBasedCache(getCacheDir(), 1024*1024); //1MB of space
+    //Cache cache = new DiskBasedCache(getCacheDir(), 1024*1024); //1MB of space
 
     //Network
     Network network = new BasicNetwork(new HurlStack());
 
     //Combining the queue and network
-    requestQueue = new requestQueue(cache, network);
+    //requestQueue = new requestQueue(cache, network);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
