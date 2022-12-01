@@ -3,8 +3,11 @@ package com.example.cm3110_coursework_o_souter;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -22,6 +25,9 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -83,35 +89,7 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
         btnBackMeteor.setOnClickListener(this); //Adding a listener
         RecyclerView meteorList = v.findViewById(R.id.recycleViewMeteors);
         TextView txtMeteorCoords = v.findViewById(R.id.coordinateTextView); //Variable for the textview to display the coordinates
-        String url = "asdhttps://data.nasa.gov/resource/gh4g-9sfh.json";
-        RequestQueue queue = Volley.newRequestQueue(this.getContext());
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.GET, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        //Creating a JSONObject from the string request
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONObject geoLocation = jsonObject.getJSONObject("geolocation");
-                            String latitude = geoLocation.getString("latitude");
-                            String longitude = geoLocation.getString("longitude");
-                            System.out.println(response);
-                            txtMeteorCoords.setText("Latitude: " + latitude + "\nLongitude: " + longitude);
 
-                        }
-                        catch (JSONException e){
-                            e.printStackTrace();
-                            System.out.println("API Error!");
-                            txtMeteorCoords.setText("There was an Issue with the API...");
-                        }
-                    }
-        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //Error handling
-                    }
-        });
-        queue.add(stringRequest);
         return v;
     }
     @Override
@@ -122,6 +100,69 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
         else {
             //Do nothing
         }
+
+    }
+
+    private ArrayList<Meteor> getAPIData(int length) {
+        ArrayList meteorList = new ArrayList<Meteor>();
+
+        //Testing code - uncomment this code and comment out other code out to test with placeholder meteor values
+        /*
+        Meteor testMeteor1 = new Meteor("Brian", "69.3242", "37.3837", "2002");
+        Meteor testMeteor2 = new Meteor("James", "21.32342", "1.12323", "1996");
+        Meteor testMeteor3 = new Meteor("Fred", "27.9642", "5.26372", "2020");
+        Meteor testMeteor4 = new Meteor("Ethel", "87.3732", "7.32932", "2012");
+
+        meteorList.add(testMeteor1);
+        meteorList.add(testMeteor2);
+        meteorList.add(testMeteor3);
+        meteorList.add(testMeteor4);
+        */
+
+        String url = "https://data.nasa.gov/resource/gh4g-9sfh.json";
+        //RequestQueue queue = Volley.newRequestQueue(ctx);
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //Creating a JSONObject from the string request
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    //JSONObject geoLocation = jsonObject.getJSONObject("geolocation");
+                    //String latitude = geoLocation.getString("latitude");
+                    //String longitude = geoLocation.getString("longitude");
+                    //System.out.println(response.toString());
+
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
+                    System.out.println("API Error!");
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Error handling
+            }
+        });
+        //queue.add(stringRequest);
+
+
+        return meteorList;
+
+
+    }
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ArrayList<Meteor> meteorList = getAPIData(100);
+
+        RecyclerView meteorRv = view.findViewById(R.id.recycleViewMeteors);
+        RecyclerView.Adapter meteor_adapter = new meteor_adapter(getContext(), meteorList);
+        meteorRv.setAdapter(meteor_adapter);
+        meteorRv.setLayoutManager(new LinearLayoutManager(getContext()));
 
     }
 }

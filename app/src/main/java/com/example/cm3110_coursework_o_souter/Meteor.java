@@ -4,28 +4,31 @@ import java.util.ArrayList;
 
 public class Meteor {
     private String name;
-    private int year;
-    private float lat;
-    private float lon;
+    private String date;
+    private String lat;
+    private String lon;
 
-    public Meteor(String name, float lat, float lon, int year) {
+    public Meteor(String name, String lat, String lon, String date) {
         this.name = name;
         this.lat = lat;
         this.lon = lon;
-        this.year = year;
+        this.date = date;
     }
 
     public String getName() {
         return this.name;
     }
-    public float getLatitude() {
+
+    public String getLatitude() {
         return this.lat;
     }
-    public float getLongitude() {
+
+    public String getLongitude() {
         return this.lon;
     }
-    public float getYear() {
-        return this.year;
+
+    public String getDate() {
+        return this.date;
     }
 
 
