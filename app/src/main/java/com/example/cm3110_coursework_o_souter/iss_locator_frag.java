@@ -3,6 +3,7 @@ package com.example.cm3110_coursework_o_souter;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -21,6 +22,12 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,7 +76,9 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
+
     }
 
 
@@ -117,6 +126,8 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         Button btnBackISS = v.findViewById(R.id.btnBackISS); //Making a variable to find the button
         TextView coordinateTextView = v.findViewById(R.id.coordinateTextView);
         btnBackISS.setOnClickListener(this); //Adding a listener
+        Button refreshBtn = v.findViewById(R.id.btnRefresh);
+        refreshBtn.setOnClickListener(this); //Adding a listener
         //Getting API data
         String url = "https://api.wheretheiss.at/v1/satellites/25544"; //URL where the ISS data is stored
         RequestQueue queue = Volley.newRequestQueue(this.getContext());

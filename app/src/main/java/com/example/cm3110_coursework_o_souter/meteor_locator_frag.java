@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,9 +81,9 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
 
         Button btnBackMeteor = v.findViewById(R.id.btnBackMeteor); //Making a variable to find the button
         btnBackMeteor.setOnClickListener(this); //Adding a listener
-
+        RecyclerView meteorList = v.findViewById(R.id.recycleViewMeteors);
         TextView txtMeteorCoords = v.findViewById(R.id.coordinateTextView); //Variable for the textview to display the coordinates
-        String url = "https://data.nasa.gov/resource/gh4g-9sfh.json";
+        String url = "asdhttps://data.nasa.gov/resource/gh4g-9sfh.json";
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET, url, new Response.Listener<String>() {
