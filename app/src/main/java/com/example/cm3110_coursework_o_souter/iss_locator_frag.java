@@ -29,6 +29,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,6 +48,7 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private String latAndLon = "";
 
     public iss_locator_frag() {
         // Required empty public constructor
@@ -132,63 +134,70 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         //Getting API data from Where the ISS at
         String whereISSurl = "https://api.wheretheiss.at/v1/satellites/25544"; //URL where the ISS data is stored
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
-        final String[] latAndLon = {""};
+
         StringRequest whereTheISSStringRequest = new StringRequest(
                 Request.Method.GET, whereISSurl, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         //Creating a JSONObject from the string request
                         try {
-
                             JSONObject jsonObject = new JSONObject(response);
                             String latitude = jsonObject.getString("latitude");
                             String longitude = jsonObject.getString("longitude");
                             //Add text
                             coordinateTextView.setText("The ISS's coordinates are: \nLatitude: " + latitude + " \nLongitude: " + longitude);
-                            latAndLon[0] = latitude + "+" + longitude;
+                            latAndLon = latitude + "+" + longitude;
+
+                            //Getting API data from OpenCageData reverse-geocoding
+                            //https://api.opencagedata.com/geocode/version/format?parameters
+                            String openCageurl = "https://api.opencagedata.com/geocode/v1/json?q=" + latAndLon.toString() + "&key=39f51af858b4470db1062aba40c2c414";
+                            //System.out.println("Test url: " + openCageurl);
+                            StringRequest openCageStringRequest = new StringRequest(
+                                    Request.Method.GET, openCageurl, new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    //Creating a JSONObject from the string request
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(response);
+                                        JSONArray results = jsonObject.getJSONArray("results");
+                                        JSONObject item = results.getJSONObject(0);
+                                        //JSONObject annotations = item.getJSONObject("annotations");
+                                        String formatted = item.getString("formatted");
+                                        //System.out.println("Response as follows:");
+                                        //System.out.println(response);
+                                        //Add text
+                                        txtCountry.setText(formatted);
+                                    }
+                                    catch (JSONException e) {
+                                        e.printStackTrace();
+                                        txtCountry.setText("There was an issue with the Country API...");
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    //Error handling
+                                    txtCountry.setText("There was an issue with the Country API...");
+                                }
+                            });
+                            //Queue the request
+                            queue.add(openCageStringRequest);
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
-                            coordinateTextView.setText("There was an issue with the API...");
+                            coordinateTextView.setText("There was an issue with the Coordinate API...");
                         }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //Error handling
-                        coordinateTextView.setText("There was an issue with the API...");
+                        coordinateTextView.setText("There was an issue with the Coordinate API...");
                     }
                 });
+        //Queue the request
         queue.add(whereTheISSStringRequest);
 
-        //Getting API data from OpenCageData reverse-geocoding
-        //https://api.opencagedata.com/geocode/version/format?parameters
-        String openCageurl = "https://api.opencagedata.com/geocode/v1/json?q=" + latAndLon.toString() + "key=39f51af858b4470db1062aba40c2c414";
-        StringRequest openCageStringRequest = new StringRequest(
-                Request.Method.GET, openCageurl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //Creating a JSONObject from the string request
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    System.out.println("Response as follows:");
-                    System.out.println(response);
-                    //Add text
-                    txtCountry.setText(response.toString());
-                }
-                catch (JSONException e) {
-                    e.printStackTrace();
-                    txtCountry.setText("There was an issue with the API...");
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //Error handling
-                txtCountry.setText("There was an issue with the API...");
-            }
-        });
-        queue.add(openCageStringRequest);
         return v;
     }
 
@@ -196,6 +205,10 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         if (v.getId() == R.id.btnBackISS) {
             Navigation.findNavController(v).navigate(R.id.homepage_frag);
+        }
+        else if (v.getId() == R.id.btnRefresh) {
+            //If refresh button pressed, load the page again
+            Navigation.findNavController(v).navigate(R.id.iss_locator_frag);
         }
         else {
 

@@ -35,7 +35,7 @@
         android:id="@+id/coordinateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="The ISS's coordinates are:\nLatitude:\nLongitude:"
+        android:text="The ISS's coordinates are:\nLatitude: Loading...\nLongitude: Loading..."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,14 +60,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Refresh"
-        tools:layout_editor_absoluteX="155dp"
-        tools:layout_editor_absoluteY="601dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.879" />
 
     <TextView
         android:id="@+id/txtCountry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Country"
+        android:text="Loading location..."
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
