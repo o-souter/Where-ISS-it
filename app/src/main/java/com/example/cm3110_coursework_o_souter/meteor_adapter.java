@@ -26,11 +26,22 @@ public class meteor_adapter extends RecyclerView.Adapter<meteor_adapter.MeteorVi
     @Override
     public void onBindViewHolder(@NonNull MeteorViewHolder holder, int position) {
         Meteor meteor = this.meteorList.get(position);
+
         TextView name = holder.meteorView.findViewById(R.id.meteorName);
         TextView date = holder.meteorView.findViewById(R.id.txtDate);
         TextView hazard = holder.meteorView.findViewById(R.id.txtPotentiallyHazardous);
         TextView lon = holder.meteorView.findViewById(R.id.txtLongitude);
-        name.setText(meteor.getName());
+        if (meteor.getName().length() > 5) {
+            String half1;
+            String half2;
+            half1 = meteor.getName().substring(0,5);
+            half2 = meteor.getName().substring(6, meteor.getName().length());
+            name.setText(half1 + "\n" + half2);
+        }
+        else {
+            name.setText(meteor.getName());
+        }
+
         date.setText(meteor.getDate());
         if (meteor.getHazardous()) {
             hazard.setText("Hazardous");
