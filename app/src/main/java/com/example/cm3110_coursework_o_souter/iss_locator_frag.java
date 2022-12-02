@@ -128,21 +128,23 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         btnBackISS.setOnClickListener(this); //Adding a listener
         Button refreshBtn = v.findViewById(R.id.btnRefresh);
         refreshBtn.setOnClickListener(this); //Adding a listener
-        //Getting API data
+        //Getting API data from Where the ISS at
         String url = "https://api.wheretheiss.at/v1/satellites/25544"; //URL where the ISS data is stored
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
-
+        final String[] latAndLon = {""};
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         //Creating a JSONObject from the string request
                         try {
+
                             JSONObject jsonObject = new JSONObject(response);
                             String latitude = jsonObject.getString("latitude");
                             String longitude = jsonObject.getString("longitude");
                             //Add text
                             coordinateTextView.setText("The ISS's coordinates are: \nLatitude: " + latitude + " \nLongitude: " + longitude);
+                            latAndLon[0] = latitude + "+" + longitude;
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
@@ -157,6 +159,10 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
                     }
                 });
         queue.add(stringRequest);
+
+        //Getting API data from OpenCageData reverse-geocoding
+        //https://api.opencagedata.com/geocode/version/format?parameters
+        url = "https://api.opencagedata.com/geocode/v1/json?q=" + latitude + "" + "key=39f51af858b4470db1062aba40c2c414";
 
         return v;
     }
