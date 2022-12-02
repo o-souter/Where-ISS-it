@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -23,10 +24,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,6 +51,8 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private View view;
 
     public meteor_locator_frag() {
         // Required empty public constructor
@@ -103,7 +112,7 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
 
     }
 
-    private ArrayList<Meteor> getAPIData(int length) {
+    private void getAPIDataAndFillRecycler(int length) {
         ArrayList meteorList = new ArrayList<Meteor>();
 
         //Testing code - uncomment this code and comment out other code out to test with placeholder meteor values
@@ -118,20 +127,47 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
         meteorList.add(testMeteor3);
         meteorList.add(testMeteor4);
         */
-
-        String url = "https://data.nasa.gov/resource/gh4g-9sfh.json";
-        //RequestQueue queue = Volley.newRequestQueue(ctx);
-        StringRequest stringRequest = new StringRequest(
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar dateCalendar = Calendar.getInstance();
+        //String theDate = dateFormat.format(dateCalendar.getTime());
+        System.out.println("The date : " + dateFormat.format(dateCalendar.getTime()));
+        String date1 = dateFormat.format(dateCalendar.getTime());
+        //dateCalendar.add(Calendar.DAY_OF_MONTH, -7);
+        String date2 = dateFormat.format(dateCalendar.getTime());
+        //System.out.println("Date 1: " + date1);
+        //System.out.println("Date 2: " + date2);
+        String url = "https://api.nasa.gov/neo/rest/v1/feed?start_date=" + date2 + "&end_date=" + date1 + "&api_key=90bu8heDmxK3JCKpJBJvV5eejPHI0kDaRBTP4WAH";
+        System.out.println("Test URL: " + url);
+        RequestQueue queue = Volley.newRequestQueue(this.getContext());
+        StringRequest meteorRequest = new StringRequest(
                 Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Creating a JSONObject from the string request
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    //JSONObject geoLocation = jsonObject.getJSONObject("geolocation");
-                    //String latitude = geoLocation.getString("latitude");
-                    //String longitude = geoLocation.getString("longitude");
-                    //System.out.println(response.toString());
+                    JSONObject near_earth_objects = jsonObject.getJSONObject("near_earth_objects");
+                    JSONArray meteor_array = near_earth_objects.getJSONArray(date1);
+                    for (int i = 0; i < meteor_array.length(); i++) {
+                        JSONObject item = meteor_array.getJSONObject(i);
+                        String meteorName = item.getString("name");
+                        System.out.println("Meteor name: " + meteorName);
+                        Meteor newMeteor = new Meteor(meteorName, "5", "5", date1);
+                        meteorList.add(newMeteor);
+                    }
+                    removeLoadingBar();
+                    fillRecycler(meteorList);
+
+
+                    //System.out.println("Meteor List 1: ");
+                    //for (int j = 0; j < meteorList.size(); j++) {
+                    //    System.out.println("Meteor: " + meteorList.get(j).toString());
+                    //}
+
+
+
+                    //System.out.println("First meteor in list name : " + meteorName);
+
 
                 }
                 catch (JSONException e){
@@ -143,26 +179,33 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
             @Override
             public void onErrorResponse(VolleyError error) {
                 //Error handling
+                System.out.println("API Error!");
             }
         });
-        //queue.add(stringRequest);
-
-
-        return meteorList;
-
-
+        queue.add(meteorRequest);
     }
 
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ArrayList<Meteor> meteorList = getAPIData(100);
+        this.view = view;
 
+        getAPIDataAndFillRecycler(100);
+
+
+
+    }
+
+    private void fillRecycler(ArrayList<Meteor> meteorList) {
+        //System.out.println("Received array list: " + meteorList);
         RecyclerView meteorRv = view.findViewById(R.id.recycleViewMeteors);
         RecyclerView.Adapter meteor_adapter = new meteor_adapter(getContext(), meteorList);
         meteorRv.setAdapter(meteor_adapter);
         meteorRv.setLayoutManager(new LinearLayoutManager(getContext()));
-
+    }
+    private void removeLoadingBar() {
+        ProgressBar meteorBar = view.findViewById(R.id.meteorLoadingBar);
+        meteorBar.setVisibility(view.GONE);
     }
 }

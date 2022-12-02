@@ -31,5 +31,10 @@ public class Meteor {
         return this.date;
     }
 
+    @Override
+    public String toString() {
+        return "Meteor name: " + getName() + ", Lat/Lon: " + getLatitude() + "+" + getLongitude() + ", Date: " + getDate();
+    }
+
 
 }
