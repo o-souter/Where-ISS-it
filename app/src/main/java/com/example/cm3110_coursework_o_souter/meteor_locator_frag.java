@@ -151,8 +151,10 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
                     for (int i = 0; i < meteor_array.length(); i++) {
                         JSONObject item = meteor_array.getJSONObject(i);
                         String meteorName = item.getString("name");
-                        System.out.println("Meteor name: " + meteorName);
-                        Meteor newMeteor = new Meteor(meteorName, "5", "5", date1);
+                        //System.out.println("Meteor name: " + meteorName);
+                        Boolean hazardous = item.getBoolean("is_potentially_hazardous_asteroid");
+                        System.out.println("Hazard Level: " + hazardous);
+                        Meteor newMeteor = new Meteor(meteorName, hazardous, date1);
                         meteorList.add(newMeteor);
                     }
                     removeLoadingBar();

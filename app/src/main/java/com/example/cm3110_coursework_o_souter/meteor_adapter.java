@@ -9,8 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 public class meteor_adapter extends RecyclerView.Adapter<meteor_adapter.MeteorViewHolder>{
@@ -30,11 +28,17 @@ public class meteor_adapter extends RecyclerView.Adapter<meteor_adapter.MeteorVi
         Meteor meteor = this.meteorList.get(position);
         TextView name = holder.meteorView.findViewById(R.id.meteorName);
         TextView date = holder.meteorView.findViewById(R.id.txtDate);
-        TextView lat = holder.meteorView.findViewById(R.id.txtLatitude);
+        TextView hazard = holder.meteorView.findViewById(R.id.txtPotentiallyHazardous);
         TextView lon = holder.meteorView.findViewById(R.id.txtLongitude);
         name.setText(meteor.getName());
         date.setText(meteor.getDate());
-        lat.setText(meteor.getLatitude());
+        if (meteor.getHazardous()) {
+            hazard.setText("Hazardous");
+        }
+        else {
+            hazard.setText("Non-Hazardous");
+        }
+
         lon.setText(meteor.getLongitude());
     }
 
