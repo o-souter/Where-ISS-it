@@ -128,12 +128,13 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         btnBackISS.setOnClickListener(this); //Adding a listener
         Button refreshBtn = v.findViewById(R.id.btnRefresh);
         refreshBtn.setOnClickListener(this); //Adding a listener
+        TextView txtCountry = v.findViewById(R.id.txtCountry);
         //Getting API data from Where the ISS at
-        String url = "https://api.wheretheiss.at/v1/satellites/25544"; //URL where the ISS data is stored
+        String whereISSurl = "https://api.wheretheiss.at/v1/satellites/25544"; //URL where the ISS data is stored
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
         final String[] latAndLon = {""};
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest whereTheISSStringRequest = new StringRequest(
+                Request.Method.GET, whereISSurl, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         //Creating a JSONObject from the string request
@@ -158,12 +159,36 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
                         coordinateTextView.setText("There was an issue with the API...");
                     }
                 });
-        queue.add(stringRequest);
+        queue.add(whereTheISSStringRequest);
 
         //Getting API data from OpenCageData reverse-geocoding
         //https://api.opencagedata.com/geocode/version/format?parameters
-        url = "https://api.opencagedata.com/geocode/v1/json?q=" + latitude + "" + "key=39f51af858b4470db1062aba40c2c414";
-
+        String openCageurl = "https://api.opencagedata.com/geocode/v1/json?q=" + latAndLon.toString() + "key=39f51af858b4470db1062aba40c2c414";
+        StringRequest openCageStringRequest = new StringRequest(
+                Request.Method.GET, openCageurl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //Creating a JSONObject from the string request
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    System.out.println("Response as follows:");
+                    System.out.println(response);
+                    //Add text
+                    txtCountry.setText(response.toString());
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                    txtCountry.setText("There was an issue with the API...");
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Error handling
+                txtCountry.setText("There was an issue with the API...");
+            }
+        });
+        queue.add(openCageStringRequest);
         return v;
     }
 
