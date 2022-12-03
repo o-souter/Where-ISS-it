@@ -15,7 +15,6 @@
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.95" />
@@ -31,30 +30,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.043" />
 
-    <TextView
-        android:id="@+id/coordinateTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="The ISS's coordinates are:\nLatitude: Loading...\nLongitude: Loading..."
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.78" />
-
-    <FrameLayout
-        android:id="@+id/mapFrame"
-        android:layout_width="328dp"
-        android:layout_height="325dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.376">
-
-    </FrameLayout>
-
     <Button
         android:id="@+id/btnRefresh"
         android:layout_width="wrap_content"
@@ -64,7 +39,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.879" />
+        app:layout_constraintVertical_bias="0.262" />
+
+    <TextView
+        android:id="@+id/coordinateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="The ISS's coordinates are:\nLatitude: Loading...\nLongitude: Loading..."
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.159" />
 
     <TextView
         android:id="@+id/txtCountry"
@@ -74,9 +61,34 @@
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.702" />
+        app:layout_constraintVertical_bias="0.109" />
+
+    <Button
+        android:id="@+id/locationTrackBtn"
+        android:layout_width="153dp"
+        android:layout_height="62dp"
+        android:text="Track Using My Location"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.823" />
+
+    <TextView
+        android:id="@+id/distanceTxtView"
+        android:layout_width="325dp"
+        android:layout_height="37dp"
+        android:layout_marginBottom="28dp"
+        android:text="Click here to track the distance between your location and the ISS"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/locationTrackBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnRefresh"
+        app:layout_constraintVertical_bias="0.972" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

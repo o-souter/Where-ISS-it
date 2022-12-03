@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/> <!-- Permission to access rough location -->
+    <uses-permission android:name="android.permission.INTERNET"/> <!-- Permission to access internet -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> <!-- Permission to access internet -->
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,10 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Cm3110courseworkosouter"
         tools:targetApi="31">
+        <!--<service
+            android:name="locationService"
+            android:foregroundServiceType="location">
+        </service>-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCTf_h_f4tdWckZtU5mf8D5Wl6C5E7D_UU"
         />
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

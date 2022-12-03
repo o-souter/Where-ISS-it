@@ -1,9 +1,12 @@
 package com.example.cm3110_coursework_o_souter;
 
+import static java.lang.Double.parseDouble;
+
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -13,25 +16,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,7 +48,8 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
     private String mParam1;
     private String mParam2;
     private String latAndLon = "";
-
+    private ArrayList<Double> latAndLonArrayList = new ArrayList<Double>();
+    //private Context ctx;
     public iss_locator_frag() {
         // Required empty public constructor
     }
@@ -69,6 +69,7 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+        Context ctx = fragment.getContext();
         return fragment;
     }
 
@@ -84,40 +85,7 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
     }
 
 
-    /*public class singletonTest {
-        private static singletonTest instance;
-        private RequestQueue requestQueue;
-        private static Context ctx;
-
-        private singletonTest(Context context) {
-            ctx = context;
-            requestQueue = getRequestQueue();
-
-        }
-    }
-    public static synchronized singletonTest getInstance(Context context) {
-        if (singletonTest.instance == null) {
-            singletonTest.instance = new singletonTest(context);
-        }
-        return singletonTest.instance;
-    }
-    public RequestQueue getRequestQueue() {
-        if (requestQueue = null) {
-            requestQueue = Volley.newRequestQueue(ctx.getApplicationContext());
-        }
-    }
-    public <T> void addToRequestQueue(Request<T> req) {
-        getRequestQueue().add(req);
-    }*/
-
-    //Cache
-    //Cache cache = new DiskBasedCache(getCacheDir(), 1024*1024); //1MB of space
-
-    //Network
-    Network network = new BasicNetwork(new HurlStack());
-
-    //Combining the queue and network
-    //requestQueue = new requestQueue(cache, network);
+    TextView txtDistance;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -130,7 +98,11 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         btnBackISS.setOnClickListener(this); //Adding a listener
         Button refreshBtn = v.findViewById(R.id.btnRefresh);
         refreshBtn.setOnClickListener(this); //Adding a listener
+        Button  trackLocationBtn = v.findViewById(R.id.locationTrackBtn);
+        trackLocationBtn.setOnClickListener(this);
+        txtDistance = v.findViewById(R.id.distanceTxtView);
         TextView txtCountry = v.findViewById(R.id.txtCountry);
+
         //Getting API data from Where the ISS at
         String whereISSurl = "https://api.wheretheiss.at/v1/satellites/25544"; //URL where the ISS data is stored
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
@@ -147,6 +119,8 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
                             //Add text
                             coordinateTextView.setText("The ISS's coordinates are: \nLatitude: " + latitude + " \nLongitude: " + longitude);
                             latAndLon = latitude + "+" + longitude;
+                            latAndLonArrayList.add(parseDouble(latitude));
+                            latAndLonArrayList.add(parseDouble(longitude));
 
                             //Getting API data from OpenCageData reverse-geocoding
                             //https://api.opencagedata.com/geocode/version/format?parameters
@@ -201,14 +175,26 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         return v;
     }
 
+
+
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnBackISS) {
             Navigation.findNavController(v).navigate(R.id.homepage_frag);
         }
         else if (v.getId() == R.id.btnRefresh) {
+            //System.out.println("Test button pressed");
             //If refresh button pressed, load the page again
             Navigation.findNavController(v).navigate(R.id.iss_locator_frag);
+        }
+        else if (v.getId() == R.id.locationTrackBtn) {
+            //checkUserPermissions(getContext());
+            ArrayList<String> userLocation = getLocation();
+
+            System.out.println("Distance between ISS and iceland is " + compareLocations(userLocation) + "km");
+            System.out.println("Lat and Lon in an array" + latAndLonArrayList);
+            txtDistance.setText("Distance between ISS and iceland is " + compareLocations(userLocation) + "km");
+
         }
         else {
 
@@ -216,5 +202,59 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         }
     }
     String testResponse;
+
+    private void checkUserPermissions(Context ctx) {
+        System.out.println("this is a test");
+        System.out.println("User Location permission status: " + ContextCompat.checkSelfPermission(ctx, "android.permission.ACCESS_COARSE_LOCATION"));
+
+        //ActivityResultLauncher<String[]> locationPermissionReq =
+        //        registerForActivityResult(new ActivityResultContracts
+        //        .RequestMultiplePermissions(), result -> {
+        //        Boolean acceptedCoarseLocation = result.getOrDefault(
+        //                Manifest.permission.ACCESS_COARSE_LOCATION,false);
+        //        )
+        //});
+    }
+    private ArrayList<String> getLocation() {
+
+        String userLat = "64.811384"; //Placeholder value for user location latitude
+        String userLon = "-18.302958"; //Placeholder value for longitude
+        ArrayList<String> location = new ArrayList<String>();
+        location.add(userLat);
+        location.add(userLon);
+
+
+        return location;
+
+
+    }
+    private double compareLocations(ArrayList<String> userLoc) {
+        double pi = 3.1415926535; //Using pi in order to calculate using radians
+        double x1 = latAndLonArrayList.get(0)/(180/pi); //x of ISS in radians
+        double y1 = latAndLonArrayList.get(1)/(180/pi); //y of ISS in radians
+        double x2 = parseDouble(userLoc.get(0))/(180/pi); //x of USer Location in radians
+        double y2 = parseDouble(userLoc.get(1))/(180/pi); //y of User Location in radians
+        //Distance = sqrt(a^2 + b^2)
+
+        //Haversine formula - https://www.geeksforgeeks.org/program-distance-two-points-earth/#:~:text=For%20this%20divide%20the%20values,is%20the%20radius%20of%20Earth.
+        double dlon = y2 - x1;
+        double dlat = x2 - y1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(x1) * Math.cos(x2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 6371;
+        DecimalFormat twoDPformat = new DecimalFormat("0.00");
+        // calculate the result
+        return parseDouble(twoDPformat.format(c * r));
+
+
+
+        //return Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
+    }
 
 }
