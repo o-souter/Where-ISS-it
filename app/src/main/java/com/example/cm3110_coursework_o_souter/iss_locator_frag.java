@@ -4,8 +4,10 @@ import static java.lang.Double.parseDouble;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -188,6 +190,9 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
             Navigation.findNavController(v).navigate(R.id.iss_locator_frag);
         }
         else if (v.getId() == R.id.locationTrackBtn) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                //if (ActivityCompat.checkSelfPermission(iss_locator_frag.this, ))
+            }
             //checkUserPermissions(getContext());
             ArrayList<String> userLocation = getLocation();
 
@@ -202,7 +207,9 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         }
     }
     String testResponse;
-
+    // Research
+    // https://www.youtube.com/watch?v=y0gX4FD3nxk
+    // https://www.youtube.com/watch?v=mbQd6frpC3g
     private void checkUserPermissions(Context ctx) {
         System.out.println("this is a test");
         System.out.println("User Location permission status: " + ContextCompat.checkSelfPermission(ctx, "android.permission.ACCESS_COARSE_LOCATION"));
