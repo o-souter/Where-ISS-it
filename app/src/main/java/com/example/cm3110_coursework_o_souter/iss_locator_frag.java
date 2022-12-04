@@ -59,6 +59,13 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         // Required empty public constructor
     }
 
+    //Initialization of widgets
+    View v;
+    Button btnBackISS;
+    TextView coordinateTextView;
+    Button refreshBtn;
+    Button trackLocationBtn;
+    TextView txtCountry;
     public void setIssLocationStored(ArrayList<Double> coords) {
         issLocationStored = coords;
     }
@@ -103,97 +110,99 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =  inflater.inflate(R.layout.iss_locator_frag, container, false);
+        v = inflater.inflate(R.layout.iss_locator_frag, container, false);
         v.setBackgroundColor(Color.CYAN); //Setting the background colour
-        Button btnBackISS = v.findViewById(R.id.btnBackISS); //Making a variable to find the button
-        TextView coordinateTextView = v.findViewById(R.id.coordinateTextView);
+        btnBackISS = v.findViewById(R.id.btnBackISS); //Making a variable to find the button
+        coordinateTextView = v.findViewById(R.id.coordinateTextView);
         btnBackISS.setOnClickListener(this); //Adding a listener
-        Button refreshBtn = v.findViewById(R.id.btnRefresh);
+        refreshBtn = v.findViewById(R.id.btnRefresh);
         refreshBtn.setOnClickListener(this); //Adding a listener
-        Button  trackLocationBtn = v.findViewById(R.id.locationTrackBtn);
+        trackLocationBtn = v.findViewById(R.id.locationTrackBtn);
         trackLocationBtn.setOnClickListener(this);
         txtDistance = v.findViewById(R.id.distanceTxtView);
-        TextView txtCountry = v.findViewById(R.id.txtCountry);
+        txtCountry = v.findViewById(R.id.txtCountry);
+        downloadAPIDataAndUpdate();
 
 
+
+        return v;
+    }
+    public void downloadAPIDataAndUpdate() {
         //Getting API data from Where the ISS at
         String whereISSurl = "https://api.wheretheiss.at/v1/satellites/25544"; //URL where the ISS data is stored
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
 
         StringRequest whereTheISSStringRequest = new StringRequest(
                 Request.Method.GET, whereISSurl, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        //Creating a JSONObject from the string request
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            String latitude = jsonObject.getString("latitude");
-                            String longitude = jsonObject.getString("longitude");
+            @Override
+            public void onResponse(String response) {
+                //Creating a JSONObject from the string request
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String latitude = jsonObject.getString("latitude");
+                    String longitude = jsonObject.getString("longitude");
 
-                            issLocationObj.setLatitude(latitude);
-                            issLocationObj.setLongitude(longitude);
-                            //Add text
-                            coordinateTextView.setText("The ISS's coordinates are: \nLatitude: " + issLocationObj.getLatitude() + " \nLongitude: " + issLocationObj.getLongitude());
-                            latAndLon = latitude + "+" + longitude;
-                            latAndLonArrayList.add(parseDouble(latitude));
-                            latAndLonArrayList.add(parseDouble(longitude));
+                    issLocationObj.setLatitude(latitude);
+                    issLocationObj.setLongitude(longitude);
+                    //Add text
+                    coordinateTextView.setText("The ISS's coordinates are: \nLatitude: " + issLocationObj.getLatitude() + " \nLongitude: " + issLocationObj.getLongitude());
+                    latAndLon = latitude + "+" + longitude;
+                    latAndLonArrayList.add(parseDouble(latitude));
+                    latAndLonArrayList.add(parseDouble(longitude));
 
-                            //Getting API data from OpenCageData reverse-geocoding
-                            //https://api.opencagedata.com/geocode/version/format?parameters
-                            String openCageurl = "https://api.opencagedata.com/geocode/v1/json?q=" + latAndLon.toString() + "&key=39f51af858b4470db1062aba40c2c414";
-                            //System.out.println("Test url: " + openCageurl);
-                            StringRequest openCageStringRequest = new StringRequest(
-                                    Request.Method.GET, openCageurl, new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    //Creating a JSONObject from the string request
-                                    try {
-                                        JSONObject jsonObject = new JSONObject(response);
-                                        JSONArray results = jsonObject.getJSONArray("results");
-                                        JSONObject item = results.getJSONObject(0);
-                                        //JSONObject annotations = item.getJSONObject("annotations");
-                                        String formatted = item.getString("formatted");
-                                        //System.out.println("Response as follows:");
-                                        //System.out.println(response);
-                                        //Add text
-                                        issLocationObj.setLocation(formatted);
-                                        //System.out.println(issLocationObj.toString());
-                                        txtCountry.setText(issLocationObj.getLocation());
+                    //Getting API data from OpenCageData reverse-geocoding
+                    //https://api.opencagedata.com/geocode/version/format?parameters
+                    String openCageurl = "https://api.opencagedata.com/geocode/v1/json?q=" + latAndLon.toString() + "&key=39f51af858b4470db1062aba40c2c414";
+                    //System.out.println("Test url: " + openCageurl);
+                    StringRequest openCageStringRequest = new StringRequest(
+                            Request.Method.GET, openCageurl, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            //Creating a JSONObject from the string request
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray results = jsonObject.getJSONArray("results");
+                                JSONObject item = results.getJSONObject(0);
+                                //JSONObject annotations = item.getJSONObject("annotations");
+                                String formatted = item.getString("formatted");
+                                //System.out.println("Response as follows:");
+                                //System.out.println(response);
+                                //Add text
+                                issLocationObj.setLocation(formatted);
+                                //System.out.println(issLocationObj.toString());
+                                txtCountry.setText(issLocationObj.getLocation());
 
-                                    }
-                                    catch (JSONException e) {
-                                        e.printStackTrace();
-                                        txtCountry.setText("There was an issue with the Country API...");
-                                    }
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    //Error handling
-                                    txtCountry.setText("There was an issue with the Country API...");
-                                }
-                            });
-                            //Queue the request
-                            queue.add(openCageStringRequest);
+                            }
+                            catch (JSONException e) {
+                                e.printStackTrace();
+                                txtCountry.setText("There was an issue with the Country API...");
+                            }
                         }
-                        catch (JSONException e) {
-                            e.printStackTrace();
-                            coordinateTextView.setText("There was an issue with the Coordinate API...");
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            //Error handling
+                            txtCountry.setText("There was an issue with the Country API...");
                         }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //Error handling
-                        coordinateTextView.setText("There was an issue with the Coordinate API...");
-                    }
-                });
+                    });
+                    //Queue the request
+                    queue.add(openCageStringRequest);
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                    coordinateTextView.setText("There was an issue with the Coordinate API...");
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Error handling
+                coordinateTextView.setText("There was an issue with the Coordinate API...");
+            }
+        });
         //Queue the request
         queue.add(whereTheISSStringRequest);
-
-        return v;
     }
-
 
 
     @Override

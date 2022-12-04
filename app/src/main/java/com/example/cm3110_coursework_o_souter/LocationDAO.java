@@ -1,4 +1,4 @@
-package com.example.cm3110_coursework_o_souter;
+/*package com.example.cm3110_coursework_o_souter;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -29,3 +29,4 @@ public interface LocationDAO {
 
     //@Query("SELECT * from location")
 }
+*/

@@ -1,12 +1,14 @@
-package com.example.cm3110_coursework_o_souter;
+/*package com.example.cm3110_coursework_o_souter;
 
 import android.content.Context;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 @Database(entities = {Location.class}, version = 1)
+@TypeConverters({Converters.class})
 public abstract class LocationDatabase extends RoomDatabase {
 
     public abstract LocationDAO locationDAO();
@@ -29,3 +31,4 @@ public abstract class LocationDatabase extends RoomDatabase {
         super();
     }
 }
+*/
