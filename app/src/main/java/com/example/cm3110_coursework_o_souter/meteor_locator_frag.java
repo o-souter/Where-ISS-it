@@ -28,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -137,7 +138,7 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
         //System.out.println("Date 1: " + date1);
         //System.out.println("Date 2: " + date2);
         String url = "https://api.nasa.gov/neo/rest/v1/feed?start_date=" + date2 + "&end_date=" + date1 + "&api_key=90bu8heDmxK3JCKpJBJvV5eejPHI0kDaRBTP4WAH";
-        System.out.println("Test URL: " + url);
+        //System.out.println("Test URL: " + url);
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
         StringRequest meteorRequest = new StringRequest(
                 Request.Method.GET, url, new Response.Listener<String>() {
@@ -153,9 +154,16 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
                         String meteorName = item.getString("name");
                         //System.out.println("Meteor name: " + meteorName);
                         Boolean hazardous = item.getBoolean("is_potentially_hazardous_asteroid");
-                        System.out.println("Hazard Level: " + hazardous);
-                        Meteor newMeteor = new Meteor(meteorName, hazardous, date1);
+                        JSONObject diameters = item.getJSONObject("estimated_diameter");
+                        JSONObject diameterM = diameters.getJSONObject("meters");
+                        long diameterMin = Math.round(diameterM.getDouble("estimated_diameter_min"));
+                        System.out.println("Diameter Min: " + diameterMin);
+
+                        //System.out.println("Hazard Level: " + hazardous);
+                        Meteor newMeteor = new Meteor(meteorName, hazardous, date1, diameterMin);
                         meteorList.add(newMeteor);
+                        System.out.println("Meteor string");
+                        System.out.println(newMeteor.toString());
                     }
                     removeLoadingBar();
                     fillRecycler(meteorList);

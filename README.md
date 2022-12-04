@@ -36,6 +36,6 @@ Below are the first prototype wireframes of the app and its 3 pages to the descr
 # API Use
 * The App will use *Where The ISS At?*'s public api to gather the coordinates of the ISS when needed 
 * The app will also use NASA's public NeoWs (Near Earth Object Web Service) API to gather information about meteors
-* It will also use Google's Geocoding API to process coordinates to get a location.
+* It will also use OpenCage's Free Geocoding API to process coordinates to get a location.
 
 

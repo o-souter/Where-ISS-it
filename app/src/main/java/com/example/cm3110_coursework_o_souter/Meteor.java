@@ -8,13 +8,15 @@ public class Meteor {
     private String lat;
     private String lon;
     private boolean hazard;
+    private long diameter;
 
-    public Meteor(String name, boolean hazard, String date) {
+    public Meteor(String name, boolean hazard, String date, long diameter) {
         this.name = name;
         this.lat = lat;
         this.lon = lon;
         this.date = date;
         this.hazard = hazard;
+        this.diameter = diameter;
     }
 
     public String getName() {
@@ -37,9 +39,13 @@ public class Meteor {
         return this.hazard;
     }
 
+    public long getDiameter() {
+        return this.diameter;
+    }
+
     @Override
     public String toString() {
-        return "Meteor name: " + getName() + ", Hazardous:  " + getHazardous() + ", Date: " + getDate();
+        return "Meteor name: " + getName() + ", Hazardous:  " + getHazardous() + ", Date: " + getDate() + ", Diameter: " + getDiameter();
     }
 
 
