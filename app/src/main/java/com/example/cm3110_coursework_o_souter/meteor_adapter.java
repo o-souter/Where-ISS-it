@@ -32,8 +32,13 @@ public class meteor_adapter extends RecyclerView.Adapter<meteor_adapter.MeteorVi
         TextView hazard = holder.meteorView.findViewById(R.id.txtPotentiallyHazardous);
         TextView diameter = holder.meteorView.findViewById(R.id.txtDiameter);
         //TextView lon = holder.meteorView.findViewById(R.id.txtLongitude);
+        if (meteor.getName().length() > 20) {
+            name.setText(meteor.getName().substring(0, 20) + "...");
+        }
+        else {
+            name.setText(meteor.getName());
+        }
 
-        name.setText(meteor.getName());
 
         date.setText(meteor.getDate());
         if (meteor.getHazardous()) {

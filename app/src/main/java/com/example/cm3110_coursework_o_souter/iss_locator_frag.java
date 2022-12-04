@@ -31,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -51,9 +52,18 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
     private String mParam2;
     private String latAndLon = "";
     private ArrayList<Double> latAndLonArrayList = new ArrayList<Double>();
+    private ArrayList <Double>issLocationStored;
+    Location issLocationObj = new Location();
     //private Context ctx;
     public iss_locator_frag() {
         // Required empty public constructor
+    }
+
+    public void setIssLocationStored(ArrayList<Double> coords) {
+        issLocationStored = coords;
+    }
+    public ArrayList<Double> getIssLocationStored() {
+        return issLocationStored;
     }
 
     /**
@@ -105,6 +115,7 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         txtDistance = v.findViewById(R.id.distanceTxtView);
         TextView txtCountry = v.findViewById(R.id.txtCountry);
 
+
         //Getting API data from Where the ISS at
         String whereISSurl = "https://api.wheretheiss.at/v1/satellites/25544"; //URL where the ISS data is stored
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
@@ -118,8 +129,11 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
                             JSONObject jsonObject = new JSONObject(response);
                             String latitude = jsonObject.getString("latitude");
                             String longitude = jsonObject.getString("longitude");
+
+                            issLocationObj.setLatitude(latitude);
+                            issLocationObj.setLongitude(longitude);
                             //Add text
-                            coordinateTextView.setText("The ISS's coordinates are: \nLatitude: " + latitude + " \nLongitude: " + longitude);
+                            coordinateTextView.setText("The ISS's coordinates are: \nLatitude: " + issLocationObj.getLatitude() + " \nLongitude: " + issLocationObj.getLongitude());
                             latAndLon = latitude + "+" + longitude;
                             latAndLonArrayList.add(parseDouble(latitude));
                             latAndLonArrayList.add(parseDouble(longitude));
@@ -142,7 +156,10 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
                                         //System.out.println("Response as follows:");
                                         //System.out.println(response);
                                         //Add text
-                                        txtCountry.setText(formatted);
+                                        issLocationObj.setLocation(formatted);
+                                        //System.out.println(issLocationObj.toString());
+                                        txtCountry.setText(issLocationObj.getLocation());
+
                                     }
                                     catch (JSONException e) {
                                         e.printStackTrace();
@@ -198,6 +215,7 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
 
             System.out.println("Distance between ISS and iceland is " + compareLocations(userLocation) + "km");
             System.out.println("Lat and Lon in an array" + latAndLonArrayList);
+
             txtDistance.setText("Distance between ISS and iceland is " + compareLocations(userLocation) + "km");
 
         }
@@ -237,8 +255,12 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
     }
     private double compareLocations(ArrayList<String> userLoc) {
         double pi = 3.1415926535; //Using pi in order to calculate using radians
-        double x1 = latAndLonArrayList.get(0)/(180/pi); //x of ISS in radians
-        double y1 = latAndLonArrayList.get(1)/(180/pi); //y of ISS in radians
+        double x1 = parseDouble(issLocationObj.getLatitude());
+        double y1 = parseDouble(issLocationObj.getLongitude());
+        //System.out.println("x1: " + x1);
+        //System.out.println("y1: " + y1);
+        x1 = x1/(180/pi); //x of ISS in radians
+        y1 = y1/(180/pi); //y of ISS in radians
         double x2 = parseDouble(userLoc.get(0))/(180/pi); //x of USer Location in radians
         double y2 = parseDouble(userLoc.get(1))/(180/pi); //y of User Location in radians
         //Distance = sqrt(a^2 + b^2)
@@ -249,15 +271,16 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         double a = Math.pow(Math.sin(dlat / 2), 2)
                 + Math.cos(x1) * Math.cos(x2)
                 * Math.pow(Math.sin(dlon / 2),2);
-
+        System.out.println("a: " + a);
         double c = 2 * Math.asin(Math.sqrt(a));
-
+        System.out.println("c: " + c);
         // Radius of earth in kilometers. Use 3956
         // for miles
         double r = 6371;
-        DecimalFormat twoDPformat = new DecimalFormat("0.00");
+        DecimalFormat twoDPFormat = new DecimalFormat("0.00");
         // calculate the result
-        return parseDouble(twoDPformat.format(c * r));
+        System.out.println("Distance output test: " + parseDouble(twoDPFormat.format(c * r)));
+        return parseDouble(twoDPFormat.format(c * r));
 
 
 
