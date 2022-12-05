@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public View onCredteView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.activity_main, container, false);
         ProgressBar mainBar = v.findViewById(R.id.progressBarMain);

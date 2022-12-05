@@ -9,12 +9,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class meteor_adapter extends RecyclerView.Adapter<meteor_adapter.MeteorViewHolder>{
     private Context ctx;
     private List<Meteor> meteorList;
 
+    
+
+    
     @NonNull
     @Override
     public MeteorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -41,7 +46,7 @@ public class meteor_adapter extends RecyclerView.Adapter<meteor_adapter.MeteorVi
 
 
         date.setText(meteor.getDate());
-        if (meteor.getHazardous()) {
+        if (meteor.getHazard()) {
             hazard.setText("Potentially Hazardous");
         }
         else {
@@ -60,6 +65,13 @@ public class meteor_adapter extends RecyclerView.Adapter<meteor_adapter.MeteorVi
         super();
         this.ctx = ctx;
         this.meteorList = meteorList;
+    }
+
+    public void setMeteors(List<Meteor> meteorList) {
+
+        this.meteorList = meteorList;
+        System.out.println("I'm taking in some meteors as follows");
+        System.out.println(this.meteorList);
     }
 
     public class MeteorViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

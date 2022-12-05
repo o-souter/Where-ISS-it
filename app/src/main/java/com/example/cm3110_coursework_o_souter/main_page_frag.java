@@ -1,5 +1,6 @@
 package com.example.cm3110_coursework_o_souter;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -27,6 +28,7 @@ public class main_page_frag extends Fragment {
     public main_page_frag() {
         // Required empty public constructor
     }
+    View v;
 
     /**
      * Use this factory method to create a new instance of
@@ -59,6 +61,9 @@ public class main_page_frag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.homepage_frag, container, false);
+        v = inflater.inflate(R.layout.homepage_frag, container, false);
+
+
+        return v;
     }
 }

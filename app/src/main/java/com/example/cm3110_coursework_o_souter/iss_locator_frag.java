@@ -128,6 +128,9 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         return v;
     }
     public void downloadAPIDataAndUpdate() {
+        //Set to loading values until updated
+        coordinateTextView.setText("The ISS's coordinates are:\nLatitude: Loading...\nLongitude: Loading...");
+        txtCountry.setText("Loading...");
         //Getting API data from Where the ISS at
         String whereISSurl = "https://api.wheretheiss.at/v1/satellites/25544"; //URL where the ISS data is stored
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
@@ -213,7 +216,9 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         else if (v.getId() == R.id.btnRefresh) {
             //System.out.println("Test button pressed");
             //If refresh button pressed, load the page again
-            Navigation.findNavController(v).navigate(R.id.iss_locator_frag);
+            //Navigation.findNavController(v).navigate(R.id.iss_locator_frag);
+            downloadAPIDataAndUpdate();
+            //coordinateTextView.setText("The ISS's coordinates are: \nLatitude: " + issLocationObj.getLatitude() + " \nLongitude: " + issLocationObj.getLongitude());
         }
         else if (v.getId() == R.id.locationTrackBtn) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

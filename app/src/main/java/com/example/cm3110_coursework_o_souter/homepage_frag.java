@@ -78,8 +78,8 @@ public class homepage_frag extends Fragment implements View.OnClickListener{
         else if (v.getId() == R.id.btn_meteor_page) {
             Navigation.findNavController(v).navigate(R.id.meteor_locator_frag);
         }
-        else {
-            //Do nothing
-        }
+        //else {
+        //    //Do nothing
+        //}
     }
 }
