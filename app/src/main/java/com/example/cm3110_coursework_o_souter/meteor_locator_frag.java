@@ -93,7 +93,7 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         System.out.println("Wiping repo, creating new one...");
-        this.repoLocal = new MeteorRepo(getContext());
+        repoLocal = new MeteorRepo(getContext());
 
     }
 
@@ -199,7 +199,7 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
 
 
 
-                    System.out.println("Meteor List 1: ");
+                    //System.out.println("Meteor List 1: ");
                     //for (int j = 0; j < meteorList.size(); j++) {
                     //    System.out.println("Meteor: " + meteorList.get(j).toString());
                     //}
@@ -241,13 +241,13 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
         meteorRv.setAdapter(mAdapter);
         //Check if there is already a list of meteors stored, if so, load that
 
-        List<Meteor> cached = repoLocal.getTodaysMeteors(date);
+        //List<Meteor> cached = repoLocal.getTodaysMeteors(date);
         System.out.println("Repo contents when view created: " + repoLocal.getTodaysMeteors(date));
-        System.out.println("Cached: " + cached);
+        System.out.println("Cached: " + meteorList);
         System.out.println("Meteors in repo" + this.repoLocal.getTodaysMeteors(date));
         //meteorList.addAll(this.repoLocal.getTodaysMeteors(date));
-        System.out.println("Size of cache: " + cached.size());
-        if (cached.size() > 0) {
+        System.out.println("Size of cache: " + meteorList.size());
+        if (meteorList.size() > 0) {
             //If cached data exists, use this instead of downloading
             //for (int i = 0; i < cached.size(); i++) {
             //    meteorList.add(cached.get(i));

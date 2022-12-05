@@ -2,7 +2,9 @@ package com.example.cm3110_coursework_o_souter;
 
 import static java.lang.Double.parseDouble;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -54,6 +56,10 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
     private ArrayList<Double> latAndLonArrayList = new ArrayList<Double>();
     private ArrayList <Double>issLocationStored;
     Location issLocationObj = new Location();
+    String[] permissionsRequired = new String[]{
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+    };
     //private Context ctx;
     public iss_locator_frag() {
         // Required empty public constructor
@@ -155,10 +161,10 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
 
                     //Getting API data from OpenCageData reverse-geocoding
                     //https://api.opencagedata.com/geocode/version/format?parameters
-                    String openCageurl = "https://api.opencagedata.com/geocode/v1/json?q=" + latAndLon.toString() + "&key=39f51af858b4470db1062aba40c2c414";
+                    String openCageUrl = "https://api.opencagedata.com/geocode/v1/json?q=" + latAndLon.toString() + "&key=39f51af858b4470db1062aba40c2c414";
                     //System.out.println("Test url: " + openCageurl);
                     StringRequest openCageStringRequest = new StringRequest(
-                            Request.Method.GET, openCageurl, new Response.Listener<String>() {
+                            Request.Method.GET, openCageUrl, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             //Creating a JSONObject from the string request
@@ -178,7 +184,7 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
                             }
                             catch (JSONException e) {
                                 e.printStackTrace();
-                                txtCountry.setText("There was an issue with the Country API...");
+                                txtCountry.setText("There was an issue with the Country API. Check your Internet Connection");
                             }
                         }
                     }, new Response.ErrorListener() {
@@ -193,14 +199,14 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
                 }
                 catch (JSONException e) {
                     e.printStackTrace();
-                    coordinateTextView.setText("There was an issue with the Coordinate API...");
+                    coordinateTextView.setText("There was an issue with the Coordinate API. Check your Internet Connection");
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //Error handling
-                coordinateTextView.setText("There was an issue with the Coordinate API...");
+                coordinateTextView.setText("There was an issue with the Coordinate API. Check your Internet Connection");
             }
         });
         //Queue the request
@@ -221,63 +227,36 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
             //coordinateTextView.setText("The ISS's coordinates are: \nLatitude: " + issLocationObj.getLatitude() + " \nLongitude: " + issLocationObj.getLongitude());
         }
         else if (v.getId() == R.id.locationTrackBtn) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                //if (ActivityCompat.checkSelfPermission(iss_locator_frag.this, ))
-            }
-            //checkUserPermissions(getContext());
             ArrayList<String> userLocation = getLocation();
-
-            System.out.println("Distance between ISS and iceland is " + compareLocations(userLocation) + "km");
-            System.out.println("Lat and Lon in an array" + latAndLonArrayList);
-
-            txtDistance.setText("Distance between ISS and iceland is " + compareLocations(userLocation) + "km");
-
+            //System.out.println("Distance between ISS and RGU is " + compareLocations(userLocation) + "km");
+            //System.out.println("Lat and Lon in an array" + latAndLonArrayList);
+            txtDistance.setText("Distance between ISS and RGU is " + compareLocations(userLocation) + "km");
         }
         else {
 
             //Do nothing
         }
     }
-    String testResponse;
-    // Research
-    // https://www.youtube.com/watch?v=y0gX4FD3nxk
-    // https://www.youtube.com/watch?v=mbQd6frpC3g
-    private void checkUserPermissions(Context ctx) {
-        System.out.println("this is a test");
-        System.out.println("User Location permission status: " + ContextCompat.checkSelfPermission(ctx, "android.permission.ACCESS_COARSE_LOCATION"));
 
-        //ActivityResultLauncher<String[]> locationPermissionReq =
-        //        registerForActivityResult(new ActivityResultContracts
-        //        .RequestMultiplePermissions(), result -> {
-        //        Boolean acceptedCoarseLocation = result.getOrDefault(
-        //                Manifest.permission.ACCESS_COARSE_LOCATION,false);
-        //        )
-        //});
-    }
     private ArrayList<String> getLocation() {
-
-        String userLat = "64.811384"; //Placeholder value for user location latitude
-        String userLon = "-18.302958"; //Placeholder value for longitude
+        //RGU Coordinate placeholder values 57.11899994915085, -2.1377501050394203
+        String userLat = "57.11899994915085"; //Placeholder value for user location latitude
+        String userLon = "-2.1377501050394203"; //Placeholder value for longitude
         ArrayList<String> location = new ArrayList<String>();
         location.add(userLat);
         location.add(userLon);
-
-
         return location;
-
-
     }
     private double compareLocations(ArrayList<String> userLoc) {
         double pi = 3.1415926535; //Using pi in order to calculate using radians
         double x1 = parseDouble(issLocationObj.getLatitude());
         double y1 = parseDouble(issLocationObj.getLongitude());
-        //System.out.println("x1: " + x1);
-        //System.out.println("y1: " + y1);
+
         x1 = x1/(180/pi); //x of ISS in radians
         y1 = y1/(180/pi); //y of ISS in radians
         double x2 = parseDouble(userLoc.get(0))/(180/pi); //x of USer Location in radians
         double y2 = parseDouble(userLoc.get(1))/(180/pi); //y of User Location in radians
-        //Distance = sqrt(a^2 + b^2)
+
 
         //Haversine formula - https://www.geeksforgeeks.org/program-distance-two-points-earth/#:~:text=For%20this%20divide%20the%20values,is%20the%20radius%20of%20Earth.
         double dlon = y2 - x1;
@@ -295,10 +274,6 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         // calculate the result
         System.out.println("Distance output test: " + parseDouble(twoDPFormat.format(c * r)));
         return parseDouble(twoDPFormat.format(c * r));
-
-
-
-        //return Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
     }
 
 }
