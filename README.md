@@ -2,27 +2,15 @@
 cm3110-coursework-o-souter created by GitHub Classroom
 
 # App Plan
-# need to redo
 Oliver Souter 2004076
 
 **Where ISS it? - The app to track the ISS and find asteroids**
 
 # Functionality
-
-## Opening Page
-* The App logo
-* A Button which will take the user to a page to locate the ISS, 
-* Another button which will take the user to another page to find the most recent asteroid that has fallen
-
-## ISS Locator Page
-* A graphic of the country the ISS is currently over
-* A text display of the (as close to as possible) exact address/location the ISS is over
-* A back button to return back to the Opening page
-
-## Meteor Locator Page
-* A graphic of the country the most recent meteor has fallen on
-* Text display of the (as close to as possible) exact address/location the meteor landed on.
-* A back button to return back to the Opening page
+The App includes the following functionality
+* The ability to view the current location of the ISS
+* The ability to view the distance between yourself and the ISS
+* The ability to view todays meteors and their information
 
 
 
@@ -85,9 +73,16 @@ From either of these pages the user can simply navigate back to the home page us
 ![image](https://user-images.githubusercontent.com/73543366/205931686-588d8952-64fc-4721-9886-ffb8f1491f8a.png)
 
 
-# API Use
-* The App will use *Where The ISS At?*'s public api to gather the coordinates of the ISS when needed 
-* The app will also use NASA's public NeoWs (Near Earth Object Web Service) API to gather information about meteors
-* It will also use OpenCage's Free Geocoding API to process coordinates to get a location.
+# Reflection of my experience
+I found creating an app very challenging at the start, but as I worked on it it became much more interesting and I was able to learn a lot about APIs, Android development and Java and XML code.
+I feel the app could have been better if I had allocated more time to it, I could have added more interesting features and sorted out any more possible bugs.
+I am overall proud of the app that I managed to make and feel the API use went well, alongside the navigation and general functionality of the app.
+In future projects I would definitely use android studio again as it is very easy to use. I would also like to adapt my app in the future and keep on working on it as I find it genuinely interesting to work on.
+
+# Sources
+#APIS
+* The App uses *Where The ISS At?*'s public api to gather the coordinates of the ISS when needed 
+* The app also uses NASA's public NeoWs (Near Earth Object Web Service) API to gather information about meteors
+* It also uses OpenCage's Free Geocoding API to process coordinates to get a location.
 
 
