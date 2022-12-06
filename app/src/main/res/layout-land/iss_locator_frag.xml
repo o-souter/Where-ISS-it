@@ -16,20 +16,10 @@
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.95" />
-
-    <TextView
-        android:id="@+id/txtISSAbove"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="The ISS is currently above..."
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.043" />
+        app:layout_constraintVertical_bias="0.813" />
 
     <Button
         android:id="@+id/btnRefresh"
@@ -38,10 +28,10 @@
         android:text="Reload"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.146"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coordinateTextView"
-        app:layout_constraintVertical_bias="0.039" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.598" />
 
     <TextView
         android:id="@+id/coordinateTextView"
@@ -51,10 +41,10 @@
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintHorizontal_bias="0.105"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCountry"
-        app:layout_constraintVertical_bias="0.022" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.431" />
 
     <TextView
         android:id="@+id/txtCountry"
@@ -65,35 +55,52 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.142"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtISSAbove"
-        app:layout_constraintVertical_bias="0.021" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.293" />
+
+    <TextView
+        android:id="@+id/txtISSAbove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="The ISS is currently above..."
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.107"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.204" />
 
     <Button
         android:id="@+id/locationTrackBtn"
-        android:layout_width="153dp"
-        android:layout_height="62dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="How far from me?"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.836"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.823" />
+        app:layout_constraintVertical_bias="0.6" />
 
     <TextView
         android:id="@+id/distanceTxtView"
-        android:layout_width="330dp"
-        android:layout_height="70dp"
-        android:layout_marginBottom="28dp"
+        android:layout_width="329dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="157dp"
+        android:layout_marginTop="162dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:text="Click below to calculate the distance between your location and the ISS"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/locationTrackBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnRefresh"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/coordinateTextView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.875" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

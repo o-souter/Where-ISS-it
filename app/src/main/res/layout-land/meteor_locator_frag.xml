@@ -4,60 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".homepage_frag">
-
-    <Button
-        android:id="@+id/btn_iss_page"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="207dp"
-        android:layout_marginBottom="156dp"
-        android:text="Find the ISS"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.929"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btn_meteor_page"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="207dp"
-        android:layout_marginBottom="156dp"
-        android:text="Meteors"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.079"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".meteor_locator_frag">
 
     <TextView
-        android:id="@+id/txtTitle"
-        android:layout_width="275dp"
-        android:layout_height="54dp"
-        android:text="Where ISS it?"
-        android:textAlignment="center"
-        android:textSize="24sp"
+        android:id="@+id/txtMeteorLanded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Top Meteor Sightings Today"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.164" />
+
+    <Button
+        android:id="@+id/btnBackMeteor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.863" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleViewMeteors"
+        android:layout_width="635dp"
+        android:layout_height="222dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.829" />
+        app:layout_constraintVertical_bias="0.492" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="246dp"
-        android:layout_height="232dp"
-        android:layout_marginStart="54dp"
-        android:layout_marginEnd="54dp"
-        android:layout_marginBottom="33dp"
-        android:contentDescription="a clip art graphic of a satellite"
-        android:src="@drawable/satellite_graphic_cropped"
+    <ProgressBar
+        android:id="@+id/meteorLoadingBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.435" />
+        app:layout_constraintVertical_bias="0.407" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,14 +1,18 @@
 package com.example.cm3110_coursework_o_souter;
 
+import static com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY;
 import static java.lang.Double.parseDouble;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -26,6 +30,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 
 import org.json.JSONArray;
@@ -36,6 +46,9 @@ import org.w3c.dom.Text;
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,6 +85,10 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
     Button refreshBtn;
     Button trackLocationBtn;
     TextView txtCountry;
+    private Boolean fineLocationGranted;
+    private Boolean coarseLocationGranted;
+    private FusedLocationProviderClient fusedLocationClient;
+    private ActivityResultLauncher<String[]> locationPermissionReq;
     public void setIssLocationStored(ArrayList<Double> coords) {
         issLocationStored = coords;
     }
@@ -106,9 +123,45 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
             mParam2 = getArguments().getString(ARG_PARAM2);
 
         }
+        registerForLocationPermissions();
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+
 
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        locationPermissionReq.unregister();
+    }
+    private void registerForLocationPermissions() {
+        locationPermissionReq = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result ->{
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                fineLocationGranted = result.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false);
+                coarseLocationGranted = result.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false);
+            }
+            else {
+                fineLocationGranted = (ContextCompat.checkSelfPermission(
+                        getContext(), Manifest.permission.ACCESS_FINE_LOCATION) ==
+                        PackageManager.PERMISSION_GRANTED);
+                coarseLocationGranted = (ContextCompat.checkSelfPermission(
+                        getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                        PackageManager.PERMISSION_GRANTED);
+            }
+        });
+    }
 
+    private Boolean checkIfPermissionsGranted() {
+        if (fineLocationGranted != null && fineLocationGranted) {
+            //Fine location has been granted
+            return true;
+        }
+        else if (coarseLocationGranted != null && coarseLocationGranted) {
+            //Coarse location has been granted only
+            return true;
+        }
+        //No permissions granted
+        return false;
+    }
 
     TextView txtDistance;
 
@@ -117,7 +170,7 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.iss_locator_frag, container, false);
-        v.setBackgroundColor(Color.CYAN); //Setting the background colour
+
         btnBackISS = v.findViewById(R.id.btnBackISS); //Making a variable to find the button
         coordinateTextView = v.findViewById(R.id.coordinateTextView);
         btnBackISS.setOnClickListener(this); //Adding a listener
@@ -128,7 +181,7 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         txtDistance = v.findViewById(R.id.distanceTxtView);
         txtCountry = v.findViewById(R.id.txtCountry);
         downloadAPIDataAndUpdate();
-
+        v.setBackgroundColor(Color.CYAN); //Setting the background colour
 
 
         return v;
@@ -227,35 +280,114 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
             //coordinateTextView.setText("The ISS's coordinates are: \nLatitude: " + issLocationObj.getLatitude() + " \nLongitude: " + issLocationObj.getLongitude());
         }
         else if (v.getId() == R.id.locationTrackBtn) {
-            ArrayList<String> userLocation = getLocation();
+            Location userLocation = getLocation();
             //System.out.println("Distance between ISS and RGU is " + compareLocations(userLocation) + "km");
             //System.out.println("Lat and Lon in an array" + latAndLonArrayList);
-            txtDistance.setText("Distance between ISS and RGU is " + compareLocations(userLocation) + "km");
+            if (checkIfPermissionsGranted()){
+                trackLocationBtn.setText("Refresh");
+                getLocation();
+                txtDistance.setText("Distance between ISS and your location is " + compareLocations(userLocation) + "km");
+            }
+            else {
+                requestLocationPermissions();
+            }
+
         }
         else {
 
             //Do nothing
         }
     }
-
-    private ArrayList<String> getLocation() {
-        //RGU Coordinate placeholder values 57.11899994915085, -2.1377501050394203
-        String userLat = "57.11899994915085"; //Placeholder value for user location latitude
-        String userLon = "-2.1377501050394203"; //Placeholder value for longitude
-        ArrayList<String> location = new ArrayList<String>();
-        location.add(userLat);
-        location.add(userLon);
-        return location;
+    private void requestLocationPermissions() {
+        locationPermissionReq.launch(new String[]{
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        });
     }
-    private double compareLocations(ArrayList<String> userLoc) {
+    Double userLat = 57.11899994915085;
+    Double userLon = -2.1377501050394203;
+    private Location getLocation() {
+        Location userLoc = new Location();
+        //userLat;
+        //String userLon = "";
+        //RGU Coordinate placeholder values 57.11899994915085, -2.1377501050394203
+        //String userLat = "57.11899994915085"; //Placeholder value for user location latitude
+        //String userLon = "-2.1377501050394203"; //Placeholder value for longitude
+
+        if (ActivityCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            requestLocationPermissions();
+            return null;
+        }
+
+        //Getting location
+        GoogleApiAvailability googleApiAvailability = new GoogleApiAvailability();
+        if (ConnectionResult.SUCCESS == googleApiAvailability.isGooglePlayServicesAvailable(getContext())) {
+            //Google play services
+            Executor exec = Executors.newSingleThreadExecutor();
+            fusedLocationClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, null)
+                    .addOnSuccessListener(exec, new OnSuccessListener<android.location.Location>() {
+                        @Override
+                        public void onSuccess(android.location.Location location) {
+                            //Get last location
+                            if (location != null){
+                                System.out.println("Location successfully gathered, updating values...");
+                                userLat = location.getLatitude();
+                                userLon = location.getLongitude();
+                            }
+                            else {
+                                txtDistance.setText("Error with location, try refreshing or checking your permissions");
+                            }
+                        }
+                    });
+        }
+        else {
+            //Use LocationManager
+            LocationManager locationManager = (LocationManager)getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+
+            //Check for GPS
+            boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            if (gpsEnabled) {
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    locationManager.getCurrentLocation(LocationManager.GPS_PROVIDER, null,
+                    Executors.newSingleThreadExecutor(),
+                            new Consumer<android.location.Location>(){
+                        @Override
+                        public void accept(android.location.Location location) {
+                            if (location != null) {
+                                System.out.println("Location successfully gathered, updating values...");
+                                userLat = location.getLatitude();
+                                userLon = location.getLongitude();
+                            }
+                            else {
+                                txtDistance.setText("Error with location, try refreshing or checking your permissions");
+                            }
+                        }
+                    });
+                }
+            }
+        }
+
+        //ArrayList<String> location = new ArrayList<String>();
+        //location.add(userLat.toString());
+        //location.add(userLon.toString());
+        userLoc.setLatitude(userLat.toString());
+        userLoc.setLongitude(userLon.toString());
+        //return location;
+
+        return userLoc;
+    }
+    private double compareLocations(Location userLoc) {
         double pi = 3.1415926535; //Using pi in order to calculate using radians
         double x1 = parseDouble(issLocationObj.getLatitude());
         double y1 = parseDouble(issLocationObj.getLongitude());
 
         x1 = x1/(180/pi); //x of ISS in radians
         y1 = y1/(180/pi); //y of ISS in radians
-        double x2 = parseDouble(userLoc.get(0))/(180/pi); //x of USer Location in radians
-        double y2 = parseDouble(userLoc.get(1))/(180/pi); //y of User Location in radians
+        double x2 = parseDouble(userLoc.getLatitude())/(180/pi); //x of USer Location in radians
+        double y2 = parseDouble(userLoc.getLongitude())/(180/pi); //y of User Location in radians
 
 
         //Haversine formula - https://www.geeksforgeeks.org/program-distance-two-points-earth/#:~:text=For%20this%20divide%20the%20values,is%20the%20radius%20of%20Earth.
