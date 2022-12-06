@@ -72,7 +72,6 @@ The Meteor Information Page uses the following and layout managers:
 
 #Landscape layout
 Each page has a landscape counterpart layout which is triggered when the device is rotated. These contain the exact same functionality as the landscape pages, although have different layouts.
-# Insert landscape layout images here
 
 # ConstraintLayout manager
 * Each page uses a ConstraintLayout layout manager in order to position the widgets in a neat and professional manner
@@ -85,33 +84,6 @@ The following graph indicates how a user can navigate through the app. Starting 
 From either of these pages the user can simply navigate back to the home page using the Back button and from there they may access the other page - The ISS Locator and Meteor information pages are not directly linked but can both be accessed through the Home Page
 ![image](https://user-images.githubusercontent.com/73543366/205931686-588d8952-64fc-4721-9886-ffb8f1491f8a.png)
 
-
-
-# WireFrames
-63
-Below are the first prototype wireframes of the app and its 3 pages to the description above
-64
-​
-65
-![image](https://user-images.githubusercontent.com/73543366/198712846-4a850b3e-3573-4e87-b42a-fa2564df473a.png)
-66
-​
-67
-# API Use
-68
-* The App will use *Where The ISS At?*'s public api to gather the coordinates of the ISS when needed 
-69
-* The app will also use NASA's public NeoWs (Near Earth Object Web Service) API to gather information about meteors
-70
-* It will also use OpenCage's Free Geocoding API to process coordinates to get a location.
-71
-​
-72
-​
-# WireFrames
-Below are the first prototype wireframes of the app and its 3 pages to the description above
-
-![image](https://user-images.githubusercontent.com/73543366/198712846-4a850b3e-3573-4e87-b42a-fa2564df473a.png)
 
 # API Use
 * The App will use *Where The ISS At?*'s public api to gather the coordinates of the ISS when needed 
