@@ -38,7 +38,6 @@ The home page uses the following and layout managers:
 * A Simple TextView with the APP's Title
 * A Button to navigate to the ISS Locator page on the user's input  
 * A Button to navigate to the Meteor Information page on the user's input
-* This page uses a ConstraintLayout layout manager in order to position the widgets in a neat and professional manner
 ---
 <br clear="left">
 
@@ -55,7 +54,6 @@ The ISS Locator page uses the following widgets and layout managers:
 * A TextView (distanceTxtView) which, when location permissions are granted, will respond and display the distance between the user and the ISS using the coordinates from *Where The ISS At?*'s API and Android's location services(A mobile specific feature). It will compare the two values and then, using the Haversine Formula, will generate a distance in kilometers.
 * A "How far from me?" button (locationTrackBtn) which the user can use to give location access, and once this is granted, it will allow the Distance TextView to update with the distance calculated.
 * A "Back" button (btnBackISS) which allows the user to navigate back to the Home page
-* This page uses a ConstraintLayout layout manager in order to position the widgets in a neat and professional manner
 * Location access on this page is a mobile specific functionality
 ---
 <br clear="left">
@@ -69,14 +67,18 @@ The Meteor Information Page uses the following and layout managers:
 * A RecyclerView (recycleViewMeteors) which is used to show meteor information to the user - this is updated upon loading the page if an internet connection is present. A GET request is sent to NASA's NeoWs API to get today's top meteors and their data. The RecyclerView is then updated with this information. 
 * A Loading bar (meteorLoadingBar) which is used to indicate to the user that the RecyclerView is loading. It hides when the data is loaded.
 * A "Back" button (btnBackMeteor) which allows the user to navigate back to the Home page.
-* This page uses a ConstraintLayout layout manager in order to position the widgets in a neat and professional manner
 ---
 <br clear="left">
 
 #Landscape layout
 Each page has a landscape counterpart layout which is triggered when the device is rotated. These contain the exact same functionality as the landscape pages, although have different layouts.
-
 # Insert landscape layout images here
+
+# ConstraintLayout manager
+* Each page uses a ConstraintLayout layout manager in order to position the widgets in a neat and professional manner
+
+
+
 
 # Navigation
 The following graph indicates how a user can navigate through the app. Starting off at the Home page, the user can navigate to either the ISS Locator page (iss_locator_frag) or the Meteor Information page (meteor_locator_frag).
