@@ -49,11 +49,11 @@ The home page uses the following and layout managers:
 
 The ISS Locator page uses the following widgets and layout managers:
 * A simple TextView (txtISSAbove) with the text, "The ISS is currently above..." in it.
-* A TextView (txtCountry) which is used to display the Address and/or Country that the ISS is above
-* A TextView (coordinateTextView) which is used to display the ISS's precise coordinates
-* A "Reload" button (btnRefresh) which allows the user to reload the data from the API to get the latest coordinates. (user input)
-* A TextView (distanceTxtV) which, when location permissions are granted, will display the distance between the user and the ISS using the coordinates above.
-* A "How far from me?" button (locationTrackBtn) which the user can use to give location access, and then to load the distance between themselves and the ISS in the TextView above. (user input)
+* A TextView (txtCountry) which is used to display the Address and/or Country that the ISS is above - this updates when the page is accessed, or when the Reload Button is pressed. It uses data from *OpenCage*'s reverse Geocoding API (Coordinates to Location)
+* A TextView (coordinateTextView) which is used to display the ISS's precise coordinates - like the Country TextView this also updates when the page is accessed, or when the Reload button is pressed. It uses coordinate data from *Where The ISS At?*'s API. This same data is used to later be converted to a Location using *OpenCage*'s API for the Country TextView.
+* A "Reload" button (btnRefresh) which allows the user to reload the data from the API to get the latest coordinates. When clicked, this button creates an API request and downloads coordinate data from *Where The ISS At?*'s API. It then uses this with OpenCage's API to get a location and update the Coordinate and Country TextViews.
+* A TextView (distanceTxtV) which, when location permissions are granted, will respond and display the distance between the user and the ISS using the coordinates from *Where The ISS At?*'s API and Android's location services. It will compare the two values and then, using the Haversine Formula, will generate a distance in kilometers.
+* A "How far from me?" button (locationTrackBtn) which the user can use to give location access, and once this is granted, it will allow the Distance TextView to update with the distance calculated.
 * A "Back" button (btnBackISS) which allows the user to navigate back to the Home page.
 * This page uses a ConstraintLayout layout manager in order to position the widgets in a neat and professional manner
 
@@ -66,7 +66,7 @@ The ISS Locator page uses the following widgets and layout managers:
 
 The Meteor Information Page uses the following and layout managers:
 * A Simple TextView (txtMeteorTitle) which displays the text, "Top Meteor Sightings Today"
-* A RecyclerView (recycleViewMeteors) which is used to show meteor information to the user
+* A RecyclerView (recycleViewMeteors) which is used to show meteor information to the user - this is updated upon loading the page if an internet connection is present
 * A Loading bar (meteorLoadingBar) which is used to indicate to the user that the RecyclerView is loading. It hides when the data is loaded.
 * A "Back" button (btnBackMeteor) which allows the user to navigate back to the Home page.
 * This page uses a ConstraintLayout layout manager in order to position the widgets in a neat and professional manner
