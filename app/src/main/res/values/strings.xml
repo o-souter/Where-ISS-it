@@ -1,5 +1,21 @@
 <resources>
-    <string name="app_name">cm3110-coursework-o-souter</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="app_name">WhereISSit?</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="find_the_iss">Find the ISS</string>
+    <string name="meteors">Meteors</string>
+    <string name="where_iss_it">Where ISS it?</string>
+    <string name="a_clip_art_graphic_of_a_satellite">a clip art graphic of a satellite</string>
+    <string name="back">Back</string>
+    <string name="the_iss_is_currently_above">The ISS is currently above...</string>
+    <string name="how_far_from_me">How far from me?</string>
+    <string name="click_below_to_calculate_the_distance_between_your_location_and_the_iss">Click below to calculate the distance between your location and the ISS</string>
+    <string name="loading_location">Loading location...</string>
+    <string name="the_iss_s_coordinates_are_nlatitude_loading_nlongitude_loading">The ISS\'s coordinates are:\nLatitude: Loading...\nLongitude: Loading...</string>
+    <string name="reload">Reload</string>
+    <string name="meteor">Meteor</string>
+    <string name="status">Status</string>
+    <string name="date">Date</string>
+    <string name="diameter">Diameter</string>
+    <string name="a_graphic_of_a_meteor">A graphic of a meteor</string>
+    <string name="top_meteor_sightings_today">Top Meteor Sightings Today</string>
 </resources>

@@ -6,12 +6,12 @@
     android:layout_height="wrap_content"
     android:paddingTop="5dp"
     android:paddingBottom="5dp"
-    >
+    android:baselineAligned="false">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintMeteorLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_weight="1"
         android:background="#D8D8D8">
@@ -20,6 +20,7 @@
             android:id="@+id/imgMeteor"
             android:layout_width="56dp"
             android:layout_height="53dp"
+            android:contentDescription="@string/a_graphic_of_a_meteor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.045"
@@ -33,7 +34,7 @@
             android:layout_width="270dp"
             android:layout_height="29dp"
             android:layout_weight="1"
-            android:text="Meteor"
+            android:text="@string/meteor"
             android:textAlignment="textStart"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -47,7 +48,7 @@
             android:id="@+id/txtPotentiallyHazardous"
             android:layout_width="202dp"
             android:layout_height="32dp"
-            android:text="Status"
+            android:text="@string/status"
             android:textAlignment="textStart"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -60,26 +61,28 @@
             android:id="@+id/txtDate"
             android:layout_width="81dp"
             android:layout_height="19dp"
-            android:text="Date"
+            android:text="@string/date"
             android:textAlignment="textStart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.081"
             app:layout_constraintStart_toEndOf="@+id/imgMeteor"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.814" />
+            app:layout_constraintVertical_bias="0.814"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/txtDiameter"
             android:layout_width="140dp"
             android:layout_height="18dp"
             android:layout_marginBottom="15dp"
-            android:text="Diameter"
+            android:text="@string/diameter"
             android:textAlignment="textStart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/txtDate"
             app:layout_constraintTop_toBottomOf="@+id/txtPotentiallyHazardous"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="TextContrastCheck" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

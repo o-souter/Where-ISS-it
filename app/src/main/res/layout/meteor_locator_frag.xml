@@ -7,10 +7,10 @@
     tools:context=".meteor_locator_frag">
 
     <TextView
-        android:id="@+id/txtMeteorLanded"
+        android:id="@+id/txtMeteorTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Top Meteor Sightings Today"
+        android:text="@string/top_meteor_sightings_today"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -22,7 +22,7 @@
         android:id="@+id/btnBackMeteor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back"
+        android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

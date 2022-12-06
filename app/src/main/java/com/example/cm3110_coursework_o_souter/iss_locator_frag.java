@@ -376,10 +376,11 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         userLoc.setLatitude(userLat.toString());
         userLoc.setLongitude(userLon.toString());
         //return location;
-
+        System.out.println("Returning: " + userLoc);
         return userLoc;
     }
     private double compareLocations(Location userLoc) {
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
         double pi = 3.1415926535; //Using pi in order to calculate using radians
         double x1 = parseDouble(issLocationObj.getLatitude());
         double y1 = parseDouble(issLocationObj.getLongitude());
@@ -388,24 +389,28 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         y1 = y1/(180/pi); //y of ISS in radians
         double x2 = parseDouble(userLoc.getLatitude())/(180/pi); //x of USer Location in radians
         double y2 = parseDouble(userLoc.getLongitude())/(180/pi); //y of User Location in radians
-
-
+        System.out.println("ISS x: " + x1);
+        System.out.println("ISS y: " + y1);
+        System.out.println("User x:" + x2);
+        System.out.println("User y:" + y2);
         //Haversine formula - https://www.geeksforgeeks.org/program-distance-two-points-earth/#:~:text=For%20this%20divide%20the%20values,is%20the%20radius%20of%20Earth.
         double dlon = y2 - x1;
         double dlat = x2 - y1;
         double a = Math.pow(Math.sin(dlat / 2), 2)
                 + Math.cos(x1) * Math.cos(x2)
                 * Math.pow(Math.sin(dlon / 2),2);
-        System.out.println("a: " + a);
+        //System.out.println("a: " + a);
+        //System.out.println("Squared a: " + Math.sqrt(a));
+        a = Double.parseDouble(decimalFormat.format(a));
         double c = 2 * Math.asin(Math.sqrt(a));
         System.out.println("c: " + c);
         // Radius of earth in kilometers. Use 3956
         // for miles
         double r = 6371;
-        DecimalFormat twoDPFormat = new DecimalFormat("0.00");
+
         // calculate the result
-        System.out.println("Distance output test: " + parseDouble(twoDPFormat.format(c * r)));
-        return parseDouble(twoDPFormat.format(c * r));
+        System.out.println("Distance output test: " + parseDouble(decimalFormat.format(c * r)));
+        return parseDouble(decimalFormat.format(c * r));
     }
 
 }
