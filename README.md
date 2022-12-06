@@ -80,9 +80,11 @@ I am overall proud of the app that I managed to make and feel the API use went w
 In future projects I would definitely use android studio again as it is very easy to use. I would also like to adapt my app in the future and keep on working on it as I find it genuinely interesting to work on.
 
 # Sources
-#APIS
+# APIS
 * The App uses *Where The ISS At?*'s public api to gather the coordinates of the ISS when needed 
 * The app also uses NASA's public NeoWs (Near Earth Object Web Service) API to gather information about meteors
 * It also uses OpenCage's Free Geocoding API to process coordinates to get a location.
 
-
+Haversine formula 
+https://www.geeksforgeeks.org/program-distance-two-points-earth/
+Last accessed 6/12/2022 15:30pm[Online]
