@@ -50,15 +50,12 @@ public class homepage_frag extends Fragment implements View.OnClickListener{
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v) { //On Click method made for each button
         if (v.getId() == R.id.btn_iss_page) {
             Navigation.findNavController(v).navigate(R.id.iss_locator_frag);
         }
         else if (v.getId() == R.id.btn_meteor_page) {
             Navigation.findNavController(v).navigate(R.id.meteor_locator_frag);
         }
-        //else {
-        //    //Do nothing
-        //}
     }
 }

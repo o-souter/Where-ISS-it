@@ -31,14 +31,14 @@ public class meteor_adapter extends RecyclerView.Adapter<meteor_adapter.MeteorVi
     @Override
     public void onBindViewHolder(@NonNull MeteorViewHolder holder, int position) {
         Meteor meteor = this.meteorList.get(position);
-
+        //Initializing widgets for card
         TextView name = holder.meteorView.findViewById(R.id.meteorName);
         TextView date = holder.meteorView.findViewById(R.id.txtDate);
         TextView hazard = holder.meteorView.findViewById(R.id.txtPotentiallyHazardous);
         TextView diameter = holder.meteorView.findViewById(R.id.txtDiameter);
         //TextView lon = holder.meteorView.findViewById(R.id.txtLongitude);
         if (meteor.getName().length() > 20) {
-            name.setText(meteor.getName().substring(0, 20) + "...");
+            name.setText(meteor.getName().substring(0, 20) + "..."); //Name shortening in case name too long for card
         }
         else {
             name.setText(meteor.getName());
@@ -47,7 +47,7 @@ public class meteor_adapter extends RecyclerView.Adapter<meteor_adapter.MeteorVi
 
         date.setText(meteor.getDate());
         if (meteor.getHazard()) {
-            hazard.setText("Potentially Hazardous");
+            hazard.setText("Potentially Hazardous"); //If hazardous, mark as hazardous
         }
         else {
             hazard.setText("Non-Hazardous");
@@ -67,11 +67,11 @@ public class meteor_adapter extends RecyclerView.Adapter<meteor_adapter.MeteorVi
         this.meteorList = meteorList;
     }
 
-    public void setMeteors(List<Meteor> meteorList) {
+    public void setMeteors(List<Meteor> meteorList) {//Method to set meteors in the list
 
         this.meteorList = meteorList;
-        System.out.println("I'm taking in some meteors as follows");
-        System.out.println(this.meteorList);
+        //System.out.println("Tking in some meteors as follows");
+        //System.out.println(this.meteorList);
     }
 
     public class MeteorViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -84,16 +84,12 @@ public class meteor_adapter extends RecyclerView.Adapter<meteor_adapter.MeteorVi
                 super(meteorView);
                 this.meteorView = meteorView;
                 this.adapter = adapter;
-                //TextView txtName = meteorView.findViewById(R.id.meteorName);
-                //TextView txtLatitude = meteorView.findViewById(R.id.txtLatitude);
-                //TextView txtLongitude = meteorView.findViewById(R.id.txtLongitude);
-                //TextView txtDate = meteorView.findViewById(R.id.txtDate);
                 this.meteorView.setOnClickListener(this);
 
             }
             @Override
             public void onClick(View v) {
-                //Stuff
+                //This method was not used in the end
             }
         }
 }

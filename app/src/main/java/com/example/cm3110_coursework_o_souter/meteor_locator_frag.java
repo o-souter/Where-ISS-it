@@ -124,45 +124,29 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
 
     }
 
-    private void getAPIDataAndFillRecycler() {
-         meteorList = new ArrayList<Meteor>();
-
-        //Testing code - uncomment this code and comment out other code out to test with placeholder meteor values
-        /*
-        Meteor testMeteor1 = new Meteor("Brian", "69.3242", "37.3837", "2002");
-        Meteor testMeteor2 = new Meteor("James", "21.32342", "1.12323", "1996");
-        Meteor testMeteor3 = new Meteor("Fred", "27.9642", "5.26372", "2020");
-        Meteor testMeteor4 = new Meteor("Ethel", "87.3732", "7.32932", "2012");
-
-        meteorList.add(testMeteor1);
-        meteorList.add(testMeteor2);
-        meteorList.add(testMeteor3);
-        meteorList.add(testMeteor4);
-        */
-
+    private void getAPIDataAndFillRecycler() {//MEthod to get API Data and fill recycler view
+        meteorList = new ArrayList<Meteor>();
         dateCalendar = Calendar.getInstance();
-        //String theDate = dateFormat.format(dateCalendar.getTime());
         System.out.println("The date : " + dateFormat.format(dateCalendar.getTime()));
         date = dateFormat.format(dateCalendar.getTime());
-        //dateCalendar.add(Calendar.DAY_OF_MONTH, -7);
-        //String date2 = dateFormat.format(dateCalendar.getTime());
-        //System.out.println("Date 1: " + date1);
-        //System.out.println("Date 2: " + date2);
+        //Makes a url request for todays date
         String url = "https://api.nasa.gov/neo/rest/v1/feed?start_date=" + date + "&end_date=" + date + "&api_key=90bu8heDmxK3JCKpJBJvV5eejPHI0kDaRBTP4WAH";
         //System.out.println("Test URL: " + url);
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
         System.out.println("Beginning API request...");
         StringRequest meteorRequest = new StringRequest(
                 Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
+            @Override //Make request
             public void onResponse(String response) {
                 System.out.println("Response received");
                 //Creating a JSONObject from the string request
                 try {
+                    //Processing JSON data into meteor objects
                     JSONObject jsonObject = new JSONObject(response);
                     JSONObject near_earth_objects = jsonObject.getJSONObject("near_earth_objects");
                     JSONArray meteor_array = near_earth_objects.getJSONArray(date);
-                    System.out.println("Beginning meteor loop...");
+                    //System.out.println("Beginning meteor loop...");
+
                     for (int i = 0; i < meteor_array.length(); i++) {
                         JSONObject item = meteor_array.getJSONObject(i);
 
@@ -177,36 +161,23 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
                         //System.out.println("Hazard Level: " + hazardous);
                         Meteor newMeteor = new Meteor(meteorName, hazardous, date, diameterMin);
                         meteorList.add(newMeteor);
-                        System.out.println("Meteor string");
-                        System.out.println(newMeteor.toString());
+                        //System.out.println("Meteor string");
+                        //System.out.println(newMeteor.toString());
                     }
-                    System.out.println("API data downloaded successfully");
+                    //System.out.println("API data downloaded successfully");
                     removeLoadingBar();
                     //Store data if it exists
 
 
-                    System.out.println("Meteor List size: " + meteorList.size());
+                    //System.out.println("Meteor List size: " + meteorList.size());
                     if (meteorList.size() > 0) {
                         System.out.println("Meteors downloaded from API, storing in repo...");
                         repoLocal.storeMeteors(meteorList);
                         System.out.println("Stored in repo with contentsL " + repoLocal.getTodaysMeteors(date));
 
                     }
+                    //Then fills recycler view
                     fillRecycler(meteorList);
-
-
-
-
-
-
-                    //System.out.println("Meteor List 1: ");
-                    //for (int j = 0; j < meteorList.size(); j++) {
-                    //    System.out.println("Meteor: " + meteorList.get(j).toString());
-                    //}
-
-
-
-                    //System.out.println("First meteor in list name : " + meteorName);
 
 
                 }
@@ -249,17 +220,14 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
         System.out.println("Size of cache: " + meteorList.size());
         if (meteorList.size() > 0) {
             //If cached data exists, use this instead of downloading
-            //for (int i = 0; i < cached.size(); i++) {
-            //    meteorList.add(cached.get(i));
-            //}
             this.meteorList.addAll(this.repoLocal.getTodaysMeteors(date));
             mAdapter.setMeteors(meteorList);
             mAdapter.notifyDataSetChanged();
-            System.out.println("Items in adapter offline: " + mAdapter.getItemCount());
+            //System.out.println("Items in adapter offline: " + mAdapter.getItemCount());
         }
         //Otherwise download
         else {
-            System.out.println("Cache Empty, downloading data from API");
+            //System.out.println("Cache Empty, downloading data from API");
             getAPIDataAndFillRecycler();
 
         }

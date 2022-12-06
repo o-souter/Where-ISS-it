@@ -1,5 +1,5 @@
 package com.example.cm3110_coursework_o_souter;
-
+//Meteor Object
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -9,14 +9,12 @@ import java.util.ArrayList;
 public class Meteor {
     @NonNull
     @PrimaryKey(autoGenerate=true)
-    private int uid;
+    private int uid; //ID for database
 
-    private String name;
-    private String date;
-    //private String lat;
-    //private String lon;
-    private boolean hazard;
-    private long diameter;
+    private String name; //String for name
+    private String date; //String for date
+    private boolean hazard; //Boolean for hazardous or not
+    private long diameter; //Long for diameter
 
     public int getUid() {
         return this.uid;
@@ -25,10 +23,7 @@ public class Meteor {
         this.uid = uid;
     }
     public Meteor(String name, boolean hazard, String date, long diameter) {
-        //this.uid = uid;
         this.name = name;
-        //this.lat = lat;
-        //this.lon = lon;
         this.date = date;
         this.hazard = hazard;
         this.diameter = diameter;
@@ -37,14 +32,6 @@ public class Meteor {
     public String getName() {
         return this.name;
     }
-
-    //public String getLatitude() {
-    //    return this.lat;
-    //}
-
-    //public String getLongitude() {
-    //    return this.lon;
-    //}
 
     public String getDate() {
         return this.date;
@@ -59,7 +46,7 @@ public class Meteor {
     }
 
     @Override
-    public String toString() {
+    public String toString() {//toString method
         return "Meteor name: " + getName() + ", Hazardous:  " + getHazard() + ", Date: " + getDate() + ", Diameter: " + getDiameter();
     }
 

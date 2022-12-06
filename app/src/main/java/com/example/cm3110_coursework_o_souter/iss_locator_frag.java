@@ -56,45 +56,36 @@ import java.util.function.Consumer;
  * create an instance of this fragment.
  */
 public class iss_locator_frag extends Fragment implements View.OnClickListener{
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private String latAndLon = "";
-    private ArrayList<Double> latAndLonArrayList = new ArrayList<Double>();
+    private String latAndLon = ""; //String used to store latitude and longitude
+    private ArrayList<Double> latAndLonArrayList = new ArrayList<Double>();//ArrayList used to store latitude and longitude
     private ArrayList <Double>issLocationStored;
+    private Boolean fineLocationGranted; //Boolean values for whether permissions granted or not
+    private Boolean coarseLocationGranted;
+    private FusedLocationProviderClient fusedLocationClient;
+    private ActivityResultLauncher<String[]> locationPermissionReq;
     Location issLocationObj = new Location();
-    String[] permissionsRequired = new String[]{
+    String[] permissionsRequired = new String[]{ //String of permissions needed
         Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION
     };
+    TextView txtDistance;
     //private Context ctx;
     public iss_locator_frag() {
         // Required empty public constructor
     }
 
-    //Initialization of widgets
+    //Initialization of widgets and view
     View v;
     Button btnBackISS;
     TextView coordinateTextView;
     Button refreshBtn;
     Button trackLocationBtn;
     TextView txtCountry;
-    private Boolean fineLocationGranted;
-    private Boolean coarseLocationGranted;
-    private FusedLocationProviderClient fusedLocationClient;
-    private ActivityResultLauncher<String[]> locationPermissionReq;
-    public void setIssLocationStored(ArrayList<Double> coords) {
-        issLocationStored = coords;
-    }
-    public ArrayList<Double> getIssLocationStored() {
-        return issLocationStored;
-    }
+
 
     /**
      * Use this factory method to create a new instance of
@@ -111,7 +102,6 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
-        Context ctx = fragment.getContext();
         return fragment;
     }
 
@@ -123,6 +113,7 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
             mParam2 = getArguments().getString(ARG_PARAM2);
 
         }
+        //Asks for permissions
         registerForLocationPermissions();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
 
@@ -133,7 +124,7 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         super.onDestroy();
         locationPermissionReq.unregister();
     }
-    private void registerForLocationPermissions() {
+    private void registerForLocationPermissions() {//Method to register to get location permissions
         locationPermissionReq = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result ->{
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                 fineLocationGranted = result.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false);
@@ -150,7 +141,7 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         });
     }
 
-    private Boolean checkIfPermissionsGranted() {
+    private Boolean checkIfPermissionsGranted() {//Method to check if location permissions are granted
         if (fineLocationGranted != null && fineLocationGranted) {
             //Fine location has been granted
             return true;
@@ -163,7 +154,7 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         return false;
     }
 
-    TextView txtDistance;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -186,7 +177,7 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
 
         return v;
     }
-    public void downloadAPIDataAndUpdate() {
+    public void downloadAPIDataAndUpdate() {//Method to download API data and update relevant widgets
         //Set to loading values until updated
         coordinateTextView.setText("The ISS's coordinates are:\nLatitude: Loading...\nLongitude: Loading...");
         txtCountry.setText("Loading...");
@@ -268,52 +259,47 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
 
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v) {//Onclick method for each of the buttons
         if (v.getId() == R.id.btnBackISS) {
             Navigation.findNavController(v).navigate(R.id.homepage_frag);
+            //Allows navigation back to home
         }
         else if (v.getId() == R.id.btnRefresh) {
-            //System.out.println("Test button pressed");
-            //If refresh button pressed, load the page again
-            //Navigation.findNavController(v).navigate(R.id.iss_locator_frag);
             downloadAPIDataAndUpdate();
-            //coordinateTextView.setText("The ISS's coordinates are: \nLatitude: " + issLocationObj.getLatitude() + " \nLongitude: " + issLocationObj.getLongitude());
+            //Refreshes the data
         }
         else if (v.getId() == R.id.locationTrackBtn) {
+            //Gathers the user location
             Location userLocation = getLocation();
-            //System.out.println("Distance between ISS and RGU is " + compareLocations(userLocation) + "km");
-            //System.out.println("Lat and Lon in an array" + latAndLonArrayList);
             if (checkIfPermissionsGranted()){
+                //If has permissions already then move on...
                 trackLocationBtn.setText("Refresh");
                 getLocation();
                 txtDistance.setText("Distance between ISS and your location is " + compareLocations(userLocation) + "km");
             }
             else {
+                //If not then request permissions
                 requestLocationPermissions();
             }
 
         }
-        else {
-
-            //Do nothing
-        }
     }
-    private void requestLocationPermissions() {
+    private void requestLocationPermissions() {//Method to request location permissions
         locationPermissionReq.launch(new String[]{
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
         });
     }
-    Double userLat = 57.11899994915085;
+    Double userLat = 57.11899994915085; //Placeholder values in case method fails
     Double userLon = -2.1377501050394203;
-    private Location getLocation() {
+    private Location getLocation() { //Method to get location
         Location userLoc = new Location();
         //userLat;
         //String userLon = "";
         //RGU Coordinate placeholder values 57.11899994915085, -2.1377501050394203
         //String userLat = "57.11899994915085"; //Placeholder value for user location latitude
         //String userLon = "-2.1377501050394203"; //Placeholder value for longitude
-
+        //If no permissions, then do nothing
         if (ActivityCompat.checkSelfPermission(getContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getContext(),
@@ -325,7 +311,7 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         //Getting location
         GoogleApiAvailability googleApiAvailability = new GoogleApiAvailability();
         if (ConnectionResult.SUCCESS == googleApiAvailability.isGooglePlayServicesAvailable(getContext())) {
-            //Google play services
+            //Using Google play services
             Executor exec = Executors.newSingleThreadExecutor();
             fusedLocationClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, null)
                     .addOnSuccessListener(exec, new OnSuccessListener<android.location.Location>() {
@@ -344,7 +330,7 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
                     });
         }
         else {
-            //Use LocationManager
+            //Using LocationManager
             LocationManager locationManager = (LocationManager)getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
             //Check for GPS
@@ -357,7 +343,8 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
                         @Override
                         public void accept(android.location.Location location) {
                             if (location != null) {
-                                System.out.println("Location successfully gathered, updating values...");
+                                //System.out.println("Location successfully gathered, updating values...");
+                                //Updating the values when location gathered successfully
                                 userLat = location.getLatitude();
                                 userLon = location.getLongitude();
                             }
@@ -369,17 +356,14 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
                 }
             }
         }
-
-        //ArrayList<String> location = new ArrayList<String>();
-        //location.add(userLat.toString());
-        //location.add(userLon.toString());
+        //Sets the values for the object to be returned
         userLoc.setLatitude(userLat.toString());
         userLoc.setLongitude(userLon.toString());
         //return location;
-        System.out.println("Returning: " + userLoc);
+        //System.out.println("Returning: " + userLoc);
         return userLoc;
     }
-    private double compareLocations(Location userLoc) {
+    private double compareLocations(Location userLoc) { //Method to compare locations and return a distance
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
         double pi = 3.1415926535; //Using pi in order to calculate using radians
         double x1 = parseDouble(issLocationObj.getLatitude());
@@ -389,11 +373,11 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         y1 = y1/(180/pi); //y of ISS in radians
         double x2 = parseDouble(userLoc.getLatitude())/(180/pi); //x of USer Location in radians
         double y2 = parseDouble(userLoc.getLongitude())/(180/pi); //y of User Location in radians
-        System.out.println("ISS x: " + x1);
-        System.out.println("ISS y: " + y1);
-        System.out.println("User x:" + x2);
-        System.out.println("User y:" + y2);
-        //Haversine formula - https://www.geeksforgeeks.org/program-distance-two-points-earth/#:~:text=For%20this%20divide%20the%20values,is%20the%20radius%20of%20Earth.
+        //System.out.println("ISS x: " + x1);
+        //System.out.println("ISS y: " + y1);
+        //System.out.println("User x:" + x2);
+        //System.out.println("User y:" + y2);
+        //Haversine formula - from https://www.geeksforgeeks.org/program-distance-two-points-earth/
         double dlon = y2 - x1;
         double dlat = x2 - y1;
         double a = Math.pow(Math.sin(dlat / 2), 2)
@@ -407,9 +391,7 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
         // Radius of earth in kilometers. Use 3956
         // for miles
         double r = 6371;
-
-        // calculate the result
-        System.out.println("Distance output test: " + parseDouble(decimalFormat.format(c * r)));
+        //System.out.println("Distance output test: " + parseDouble(decimalFormat.format(c * r)));
         return parseDouble(decimalFormat.format(c * r));
     }
 
