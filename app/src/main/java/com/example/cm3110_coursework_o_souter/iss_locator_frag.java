@@ -205,7 +205,9 @@ public class iss_locator_frag extends Fragment implements View.OnClickListener{
 
                     //Getting API data from OpenCageData reverse-geocoding
                     //https://api.opencagedata.com/geocode/version/format?parameters
-                    String openCageUrl = "https://api.opencagedata.com/geocode/v1/json?q=" + latAndLon.toString() + "&key=39f51af858b4470db1062aba40c2c414";
+                    //You will need to make an account with OpenCage API to get a key in order for the Reverse Geocoding API to work.
+                    String key = "Insert OpenCage key here";
+                    String openCageUrl = "https://api.opencagedata.com/geocode/v1/json?q=" + latAndLon.toString() + "&key=" + key;
                     //System.out.println("Test url: " + openCageurl);
                     StringRequest openCageStringRequest = new StringRequest(
                             Request.Method.GET, openCageUrl, new Response.Listener<String>() {

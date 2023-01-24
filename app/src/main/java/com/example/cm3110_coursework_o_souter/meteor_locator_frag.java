@@ -92,7 +92,7 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        System.out.println("Wiping repo, creating new one...");
+        //System.out.println("Wiping repo, creating new one...");
         repoLocal = new MeteorRepo(getContext());
 
     }
@@ -130,7 +130,9 @@ public class meteor_locator_frag extends Fragment implements View.OnClickListene
         System.out.println("The date : " + dateFormat.format(dateCalendar.getTime()));
         date = dateFormat.format(dateCalendar.getTime());
         //Makes a url request for todays date
-        String url = "https://api.nasa.gov/neo/rest/v1/feed?start_date=" + date + "&end_date=" + date + "&api_key=90bu8heDmxK3JCKpJBJvV5eejPHI0kDaRBTP4WAH";
+        //You will need to sign up for an API key at https://api.nasa.gov/, once you have a key, paste it in the 'key' variable
+        String key = "Insert NASA API Key here";
+        String url = "https://api.nasa.gov/neo/rest/v1/feed?start_date=" + date + "&end_date=" + date + "&api_key=" + key;
         //System.out.println("Test URL: " + url);
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
         System.out.println("Beginning API request...");
