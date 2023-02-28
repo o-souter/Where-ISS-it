@@ -1,5 +1,4 @@
-# cm3110-coursework-o-souter
-cm3110-coursework-o-souter created by GitHub Classroom
+# WhereISSit? for cm3110 Mobile App Development by Oliver Souter
 
 **Note: The app will have limited functionality until a user generates their own API keys for the NASA and OpenCage Reverse Geocoding APIs. Guidance on how to do this is in the files: iss_locator_frag.java and meteor_locator_frag.java. Some features (such as coordinate tracking and distance calculations) will still work without this.**
 
