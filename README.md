@@ -59,7 +59,7 @@ The Meteor Information Page uses the following and layout managers:
 ---
 <br clear="left">
 
-#Landscape layout
+# Landscape layout
 Each page has a landscape counterpart layout which is triggered when the device is rotated. These contain the exact same functionality as the landscape pages, although have different layouts.
 
 # ConstraintLayout manager
